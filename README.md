@@ -7,7 +7,7 @@
 モーダル部分と、それ以外の（モーダル非表示時に表示されている）部分を同階層で分割してマークアップしてください。
 1. 【jQuery本体の読み込み】まずjQuery本体をjquery.fModal.jsよりも前で読み込んでおきます。
 2. 【jquery.fModal.jsプラグインの読み込み】下記の引数をコピペして $.fModal({...}); 内を以下の2,3に従って書き換えてください。
-3. 下記の引数class-name（○◯_classname）に則って、各要素にクラスを付与します。　<font color="DeepPink">// 必須</font>　の部分は指定しないと上手く動作しません。
+3. 下記の引数class-name（○◯_classname）に則って、各要素にクラスを付与します。 ★必須 の部分は指定しないと上手く動作しません。
 4. 下記の引数optionを表示スピード等お好みで変更を加えます。
 
 ## 引数 / Parameters
@@ -34,13 +34,13 @@
 
     // class-name
 
-    open_classname: 'fModal-open', //モーダルウィンドウを表示するためにクリックする要素のクラス名を変更できます。 <font color="DeepPink">// 必須</font>
-    close_classname: 'fModal-close', //モーダルウィンドウを非表示にするためにクリックする要素のクラス名を変更できます。 <font color="DeepPink">// 必須</font>
+    open_classname: 'fModal-open', //モーダルウィンドウを表示するためにクリックする要素のクラス名を変更できます。 ★必須
+    close_classname: 'fModal-close', //モーダルウィンドウを非表示にするためにクリックする要素のクラス名を変更できます。 ★必須
     page_classname: 'fModal-page', //通常のコンテンツを覆う要素のクラス名を変更できます。
-    modal_classname: 'fModal-modal', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。 <font color="DeepPink">// 必須</font>
+    modal_classname: 'fModal-modal', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。 ★必須
     modal_cont_classname: 'fModal-modal_cont', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。
-    opened_classname: 'fModal-opened' //モーダルウィンドウが開いている時に非表示にするクラス名を変更できます。 <font color="DeepPink">// 必須</font>
-    body_classname: 'fModal-opened' //モーダルウィンドウが開いている時に`body`要素に付与されるクラス名を変更できます。 <font color="DeepPink">// 必須</font>
+    opened_classname: 'fModal-opened' //モーダルウィンドウが開いている時に非表示にするクラス名を変更できます。 ★必須
+    body_classname: 'fModal-opened' //モーダルウィンドウが開いている時に`body`要素に付与されるクラス名を変更できます。 ★必須
   });
 
 ```
