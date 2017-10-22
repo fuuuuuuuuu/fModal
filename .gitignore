@@ -1,8 +1,5 @@
 docs
-# public/**/*.html
-# public/**/*.css
-# public/**/index.js
-# public/**/libs.js
+*.html
 
 .sass-cache
 *.css.map

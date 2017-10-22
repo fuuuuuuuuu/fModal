@@ -36,11 +36,39 @@
 
     open_classname: 'fModal-open', //モーダルウィンドウを表示するためにクリックする要素のクラス名を変更できます。 ★必須
     close_classname: 'fModal-close', //モーダルウィンドウを非表示にするためにクリックする要素のクラス名を変更できます。 ★必須
-    page_classname: 'fModal-page', //通常のコンテンツを覆う要素のクラス名を変更できます。
+    page_classname: 'fModal-page', //通常のコンテンツを覆う要素のクラス名を変更できます。 ★必須
     modal_classname: 'fModal-modal', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。 ★必須
     modal_cont_classname: 'fModal-modal_cont', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。
-    opened_classname: 'fModal-opened' //モーダルウィンドウが開いている時に非表示にするクラス名を変更できます。 ★必須
-    body_classname: 'fModal-opened' //モーダルウィンドウが開いている時に`body`要素に付与されるクラス名を変更できます。 ★必須
+    opened_classname: 'fModal-body' //モーダルウィンドウが開いている時に`body`要素に付与されるクラス名を変更できます。 ★必須
   });
 
 ```
+
+## 使用例 / Example
+```html
+<body class="fModal-opened">
+  <div class="fModal-page">
+    <h1>Normal Contents</h1>
+    <p><a class="fModal-open" href="#">MODAL OPEN</a></p>
+    <p>This is normal contents.</p>
+  </div>
+
+  <div class="fModal-modal">
+    <div class="fModal-modal_cont">
+      <h2>Modal Contents</h2>
+      <p><a class="fModal-close" href="#">MODAL CLOSE</a></p>
+      <p>This is modal contents.</p>
+    </div>
+  </div>
+
+  <!-- jquery読み込み -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+  <!-- プラグインファイル読み込み -->
+  <script src="jquery.fModal.js" type="text/javascript"></script>
+  <!-- jquery.fModal.jsプラグイン読み込み -->
+  <script>
+  $(function() {
+    $.fModal();
+  });
+  </script>
+</body>

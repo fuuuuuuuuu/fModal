@@ -26,7 +26,6 @@
         modal_classname: 'fModal-modal',
         modal_cont_classname: 'fModal-modal_cont',
         opened_classname: 'fModal-opened',
-        body_classname: 'fModal-body',
       },
 
       params = $.extend({}, default_options, options),
@@ -37,7 +36,6 @@
       $modal_cont = $('.' + params.modal_cont_classname),
       $page = $('.' + params.page_classname),
       $close = $('.' + params.close_classname),
-      $body = $('.' + params.body_classname),
 
       topPosition,
 
@@ -72,13 +70,13 @@
         params.before_open(e);
       }
 
-      $opened.css({
+      $page.css({
         'opacity': 0,
       });
 
       // open関数実行部分
       setTimeout(function() {
-        $opened.css('display','none');
+        $page.css('display','none');
 
         $modal.css({
           display: 'block',
@@ -133,13 +131,13 @@
 
       setTimeout( function(){
 
-        $body.css({
+        $opened.css({
           opacity: 0,
         });
 
         setTimeout( function(){
 
-          $opened.css({
+          $page.css({
             display: 'block',
             opacity: 1
           });
@@ -176,7 +174,7 @@
               $modal.css({
                 display: 'none'
               });
-              $body.css({
+              $opened.css({
                 opacity: 1
               });
 
@@ -204,11 +202,11 @@
         close(e);
       });
 
-      $opened
+      $page
         .css({
           transition: 'opacity ' + params.duration + 'ms ease-in-out'
         });
-      $body
+      $opened
         .css({
           transition: 'opacity ' + params.duration + 'ms ease-in-out'
         });
