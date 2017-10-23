@@ -5,7 +5,7 @@
 ## 使用方法 / How to use
 
 モーダル部分と、それ以外の（モーダル非表示時に表示されている）部分を同階層で分割してマークアップしてください。
-1. 【jQuery本体の読み込み】まずjQuery本体をjquery.fModal.jsよりも前で読み込んでおきます。
+1. 【jQuery本体の読み込み】jQuery本体をjquery.fModal.jsよりも前に読み込んでおきます。
 2. 【jquery.fModal.jsプラグインの読み込み】下記の引数をコピペして $.fModal({...}); 内を以下の2,3に従って書き換えてください。
 3. 下記の引数class-name（○◯_classname）に則って、各要素にクラスを付与します。 ★必須 の部分は指定しないと上手く動作しません。
 4. 下記の引数optionを表示スピード等お好みで変更を加えます。
@@ -24,6 +24,7 @@
 
     velocity_js: true, //jQueryプラグイン版の`velocity.js`を導入している場合、`velocity.js`アニメーションの使用の可否を設定できます。
     css_animation: true, //CSS3の`transition`アニメーションが使用可能な場合、`transition`アニメーションの使用の可否を設定できます。
+    lazy_flag: false, //jQueryプラグイン`jquery.lazyload.js`を導入している場合、モーダル内画像を遅延読み込みするかを設定できます。
 
     // function
 
@@ -40,6 +41,7 @@
     modal_classname: 'fModal-modal', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。 ★必須
     modal_cont_classname: 'fModal-modal_cont', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。
     opened_classname: 'fModal-body' //モーダルウィンドウが開いている時に`body`要素に付与されるクラス名を変更できます。 ★必須
+    load_classname: 'fModal-load' //モーダル内画像を遅延読み込みする場合、ロード時に表示するローディング画像（もしくはそれを覆う要素）のクラス名を変更できます。
   });
 
 ```
@@ -72,3 +74,10 @@
   });
   </script>
 </body>
+
+## 遅延読み込みについて / about-Lazyload
+使用するプラグイン --> https://github.com/tuupola/jquery_lazyload
+使用方法についてはこちらに詳しく書かれています --> http://cly7796.net/wp/javascript/plugin-jquery-lazyload/
+### 連動の仕組み
+modal_cont_classname単位で、その中にある遅延読み込み画像(class="lazy",src-->data-original)の数を取得し、その数だけ読み込みが完了したのち、modal_cont_classnameをフェードインさせています。
+ですので、ページタイプのコンテンツであれば表示ページごとにmodal_cont_classnameで覆って分ける必要があります。
