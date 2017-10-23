@@ -51,27 +51,42 @@
 <body class="fModal-opened">
   <div class="fModal-page">
     <h1>Normal Contents</h1>
-    <p><a class="fModal-open" href="#">MODAL OPEN</a></p>
+    <p><a class="fModal-open" href="#">MODAL OPEN-1</a></p>
+    <p><a class="fModal-open" href="#">MODAL OPEN-2</a></p>
+    <p><a class="fModal-open" href="#">MODAL OPEN-3</a></p>
     <p>This is normal contents.</p>
   </div>
 
-  <div class="fModal-modal">
+  <div class="fModal-modal" style="text-align: center;">
+    <div class="fModal-load" style="position: absolute; top: 50%; width: 100%;"><img class="loading" src="image/loading.gif" alt="" style="width: 40px; margin-top: -20px;"/></div>
     <div class="fModal-modal_cont">
-      <h2>Modal Contents</h2>
-      <p><a class="fModal-close" href="#">MODAL CLOSE</a></p>
-      <p>This is modal contents.</p>
+      <div class="fModal-modal_cont_item">
+        <p><a class="fModal-close" href="#">MODAL CLOSE-1</a></p>
+        <div><img class="fModal-lazy" data-original="image/img_1.jpg" alt="" /></div>
+      </div>
+      <div class="fModal-modal_cont_item">
+        <p><a class="fModal-close" href="#">MODAL CLOSE-2</a></p>
+        <div><img class="fModal-lazy" data-original="image/img_2.jpg" alt="" /></div>
+      </div>
+      <div class="fModal-modal_cont_item">
+        <p><a class="fModal-close" href="#">MODAL CLOSE-3</a></p>
+        <div><img class="fModal-lazy" data-original="image/img_3.jpg" alt="" /></div>
+      </div>
     </div>
   </div>
 
   <!-- jquery読み込み -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
   <!-- プラグインファイル読み込み -->
-  <script src="jquery.fModal.js" type="text/javascript"></script>
+  <script src="../libs/jquery.lazyload.js" type="text/javascript"></script>
+  <script src="../jquery.fModal_lazy.js" type="text/javascript"></script>
   <!-- jquery.fModal.jsプラグイン読み込み -->
   <script>
-  $(function() {
-    $.fModal();
-  });
+    $(function() {
+      $.fModal({
+        lazy_flag: true,
+      });
+    });
   </script>
 </body>
 

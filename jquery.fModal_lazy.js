@@ -220,6 +220,7 @@
 
         // 画像遅延トリガー
         var itemCurrent = $modal_cont_item.eq(item_now);
+        console.log(itemCurrent);
         itemCurrent.find('img').trigger('imagesLoad');
       },lazy_delayTime);
 
@@ -233,7 +234,7 @@
           if(lazy_count >= lazy_len){
             setTimeout(function(){
               $load.css({
-                'opacity':0
+                'opacity': 0
               });
               setTimeout(function(){
                 $modal_cont.css({
@@ -273,6 +274,10 @@
           transition: 'opacity ' + params.duration + 'ms ease-in-out'
         });
       $modal_cont
+        .css({
+          transition: 'opacity ' + params.duration + 'ms ease-in-out'
+        });
+      $load
         .css({
           transition: 'opacity ' + params.duration + 'ms ease-in-out'
         });
