@@ -20,17 +20,13 @@
     duration: 350, //モーダルウィンドウ表示時のアニメーションスピード。
     easing: 'swing', //モーダルウィンドウ表示時のアニメーションイージング。CSSアニメーションの場合は反映されず、`ease-in-out`が適応されます。
     scroll_top: true, //モーダルウィンドウを毎回ページトップから表示するかどうか。
-
     velocity_js: true, //jQueryプラグイン版の`velocity.js`を導入している場合、`velocity.js`アニメーションの使用の可否を設定できます。
     css_animation: true, //CSS3の`transition`アニメーションが使用可能な場合、`transition`アニメーションの使用の可否を設定できます。
-    lazy_flag: false, //jQueryプラグイン`jquery.lazyload.js`を導入している場合、モーダル内画像を遅延読み込みするかを設定できます。
-
     // function
     before_open: function(e) {}, //モーダルウィンドウを表示する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     after_open: function(e) {}, //モーダルウィンドウを表示する直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     before_close: function(e) {}, //モーダルウィンドウを非表示にする直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     after_close: function(e) {}, //モーダルウィンドウを非表示にする直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
-
     // class-name
     open_classname: 'fModal-open', //モーダルウィンドウを表示するためにクリックする要素のクラス名を変更できます。 **★必須**
     close_classname: 'fModal-close', //モーダルウィンドウを非表示にするためにクリックする要素のクラス名を変更できます。 **★必須**
@@ -39,9 +35,12 @@
     modal_cont_classname: 'fModal-modal_cont', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。
     opened_classname: 'fModal-body' //モーダルウィンドウが開いている時に`body`要素に付与されるクラス名を変更できます。モーダルを閉じる時に、body要素をopacity:0;にする必要があるので必ず付与してください。 **★必須**
 
+
     // for lazy-load
+    lazy_flag: false, //jQueryプラグイン`jquery.lazyload.js`を導入している場合、モーダル内画像を遅延読み込みするかを設定できます。
     load_classname: 'fModal-load' //モーダル内画像を遅延読み込みする場合、ロード時に表示するローディング画像（もしくはそれを覆う要素）のクラス名を変更できます。
     lazy_classname: 'fModal-lazy' //遅延読み込み対象の画像に付与するクラス名を変更できます。
+
   });
 
 ```
