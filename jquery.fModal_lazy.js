@@ -1,5 +1,5 @@
 /*!
- * jQuery fModal-addLazyload v1.0
+ * jQuery fModal_lazy v1.0
  * Copyright 2017 maam.inc
  * Contributing Author: Yusuke Fukunaga
  * Require for jQuery v1.7 or above

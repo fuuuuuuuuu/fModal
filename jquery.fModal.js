@@ -3,7 +3,7 @@
  * Copyright 2017 maam.inc
  * Contributing Author: Yusuke Fukunaga
  * Require for jQuery v1.7 or above
- */ 
+ */
 (function($) {
   $.fModal = function(options) {
     var default_options = {
