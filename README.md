@@ -48,6 +48,7 @@
 
 ## 使用例 / Example
 ```html
+
 <body class="fModal-opened">
   <div class="fModal-page">
     <h1>Normal Contents</h1>
@@ -74,6 +75,8 @@
   });
   </script>
 </body>
+
+```
 
 ## 遅延読み込みについて / about-Lazyload
 使用するプラグイン --> https://github.com/tuupola/jquery_lazyload
