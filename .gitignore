@@ -1,7 +1,5 @@
 docs
-**/image
-jquery.lazyload.js
-/add_lazyload/**
+libs/**
 
 .sass-cache
 *.css.map

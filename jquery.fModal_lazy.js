@@ -1,5 +1,5 @@
 /*!
- * jQuery fModal v1.0
+ * jQuery fModal-addLazyload v1.0
  * Copyright 2017 maam.inc
  * Contributing Author: Yusuke Fukunaga
  * Require for jQuery v1.7 or above
@@ -15,17 +15,23 @@
         velocity_js: true,
         css_animation: true,
 
+        lazy_flag: false,
+
         before_open: function(e) {},
         after_open: function(e) {},
         before_close: function(e) {},
         after_close: function(e) {},
+
 
         open_classname: 'fModal-open',
         close_classname: 'fModal-close',
         page_classname: 'fModal-page',
         modal_classname: 'fModal-modal',
         modal_cont_classname: 'fModal-modal_cont',
+        modal_cont_item_classname: 'fModal-modal_cont_item',
         opened_classname: 'fModal-opened',
+        load_classname: 'fModal-load',
+        lazy_classname: 'fModal-lazy',
       },
 
       params = $.extend({}, default_options, options),
@@ -34,13 +40,20 @@
       $open = $('.' + params.open_classname),
       $modal = $('.' + params.modal_classname),
       $modal_cont = $('.' + params.modal_cont_classname),
+      $modal_cont_item = $('.' + params.modal_cont_item_classname),
       $page = $('.' + params.page_classname),
       $close = $('.' + params.close_classname),
+      $load = $('.' + params.load_classname),
+      $lazy = $('.' + params.lazy_classname),
 
       topPosition,
 
       open_timeout,
-      animation_method = 'jquery_animate';
+      animation_method = 'jquery_animate',
+
+      lazy_count = 0,
+      lazy_len = 0,
+      item_now;
 
     //animation_methodの決定
     if(params.velocity_js === true && typeof $.fn.velocity !== 'undefined') {
@@ -70,8 +83,15 @@
         params.before_open(e);
       }
 
+      if (params.lazy_flag) {
+        lazyLoad();
+      }
+
       $page.css({
         'opacity': 0,
+      });
+      $load.css({
+        'opacity': 1,
       });
 
       // open関数実行部分
@@ -187,13 +207,55 @@
       }, 16);
     }
 
+
+    function lazyLoad() {
+
+      var lazy_delayTime = 300;
+
+      $modal_cont.css('opacity','0');
+
+      setTimeout(function(){
+        lazy_count = 0;
+        lazy_len = $modal_cont_item.eq(item_now).find($lazy).length;
+
+        // 画像遅延トリガー
+        var itemCurrent = $modal_cont_item.eq(item_now);
+        itemCurrent.find('img').trigger('imagesLoad');
+      },lazy_delayTime);
+
+
+      // lazyload
+      $modal.find($lazy).lazyload({
+        event: 'imagesLoad',
+        load: function(e){
+          lazy_count++;
+
+          if(lazy_count >= lazy_len){
+            setTimeout(function(){
+              $load.css({
+                'opacity':0
+              });
+              setTimeout(function(){
+                $modal_cont.css({
+                  'opacity': 1
+                });
+              },250);
+            },600);
+          }
+        }
+      });
+
+    }
+
     var init = (function() {
       // Open and Close Event
       $open.on('click.fModal', function(e) {
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
+        item_now = $open.index(this);
         open(e);
+
       });
       $close.on('click.fModal', function(e) {
         e.stopPropagation ? e.stopPropagation() : '';
@@ -207,6 +269,10 @@
           transition: 'opacity ' + params.duration + 'ms ease-in-out'
         });
       $opened
+        .css({
+          transition: 'opacity ' + params.duration + 'ms ease-in-out'
+        });
+      $modal_cont
         .css({
           transition: 'opacity ' + params.duration + 'ms ease-in-out'
         });
@@ -232,3 +298,4 @@
     }());
   };
 }(jQuery));
+
