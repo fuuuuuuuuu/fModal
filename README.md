@@ -26,7 +26,7 @@
     before_open: function(e) {}, //モーダルウィンドウを表示する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     after_open: function(e) {}, //モーダルウィンドウを表示する直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     before_close: function(e) {}, //モーダルウィンドウを非表示にする直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
-    after_close: function(e) {}, //モーダルウィンドウを非表示にする直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+    after_close: function(e) {}, //モーダルウィンドウを非表示にした直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     // class-name
     open_classname: 'fModal-open', //モーダルウィンドウを表示するためにクリックする要素のクラス名を変更できます。 **★必須**
     close_classname: 'fModal-close', //モーダルウィンドウを非表示にするためにクリックする要素のクラス名を変更できます。 **★必須**
@@ -40,6 +40,14 @@
     lazy_flag: false, //jQueryプラグイン`jquery.lazyload.js`を導入している場合、モーダル内画像を遅延読み込みするかを設定できます。
     load_classname: 'fModal-load' //モーダル内画像を遅延読み込みする場合、ロード時に表示するローディング画像（もしくはそれを覆う要素）のクラス名を変更できます。
     lazy_classname: 'fModal-lazy' //遅延読み込み対象の画像に付与するクラス名を変更できます。
+
+    // for lazy-load-multi
+    fModal_currentItem: ページ番号変数です。※変数名変更不可
+    fModal_itemLength: ページの総数を返す変数です。※変数名変更不可
+    before_change: function(e) {}, // モーダル内でページ遷移する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+    after_change: function(e) {}, // モーダル内でページ遷移した直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+    prev_classname: 'fModal-prev'
+    next_classname: 'fModal-next'
 
   });
 
@@ -91,6 +99,9 @@
 
   <div class="fModal-modal" style="text-align: center;">
     <div class="fModal-load" style="position: absolute; top: 50%; width: 100%;"><img class="loading" src="image/loading.gif" alt="" style="width: 40px; margin-top: -20px;"/></div>
+    <div class="fModal-prev" style="position: absolute; top: 48%; left: 5%; font-size: 30px; z-index: 10; cursor: pointer;">&#60;</div>
+    <div class="fModal-next" style="position: absolute; top: 48%; right: 5%; font-size: 30px; z-index: 10; cursor: pointer;">&#62;</div>
+
     <div class="fModal-modal_cont">
       <div class="fModal-modal_cont_item">
         <p><a class="fModal-close" href="#">MODAL CLOSE-1</a></p>

@@ -21,7 +21,8 @@
         after_open: function(e) {},
         before_close: function(e) {},
         after_close: function(e) {},
-
+        before_change: function(e) {},
+        after_change: function(e) {},
 
         open_classname: 'fModal-open',
         close_classname: 'fModal-close',
@@ -32,6 +33,8 @@
         opened_classname: 'fModal-opened',
         load_classname: 'fModal-load',
         lazy_classname: 'fModal-lazy',
+        prev_classname: 'fModal-prev',
+        next_classname: 'fModal-next',
       },
 
       params = $.extend({}, default_options, options),
@@ -45,6 +48,8 @@
       $close = $('.' + params.close_classname),
       $load = $('.' + params.load_classname),
       $lazy = $('.' + params.lazy_classname),
+      $prev = $('.' + params.prev_classname),
+      $next = $('.' + params.next_classname),
 
       topPosition,
 
@@ -53,7 +58,9 @@
 
       lazy_count = 0,
       lazy_len = 0,
-      item_now;
+      item_now,
+      item_length,
+      page_flag = false;
 
     //animation_methodの決定
     if(params.velocity_js === true && typeof $.fn.velocity !== 'undefined') {
@@ -84,14 +91,11 @@
       }
 
       if (params.lazy_flag) {
-        lazyLoad();
+        change(e);
       }
 
       $page.css({
         'opacity': 0,
-      });
-      $load.css({
-        'opacity': 1,
       });
 
       // open関数実行部分
@@ -208,7 +212,87 @@
     }
 
 
-    function lazyLoad() {
+    function change(e) {
+      var itemCurrent = $modal_cont_item.eq(item_now);
+      fModal_itemCurrent = item_now;
+
+      if (typeof params.before_change === 'function') {
+        params.before_change(e);
+      }
+
+      lazyLoad(e);
+
+      setTimeout(function(){
+        $load.css({
+          'opacity': 1,
+        });
+
+        setTimeout(function(){
+          $(window).scrollTop(0);
+
+          $modal_cont_item.not(itemCurrent).css({
+              opacity: 0,
+              zIndex: 0,
+              'position': 'absolute'
+            });
+
+          itemCurrent
+            .css({
+              'z-index':'1',
+              'opacity':'1',
+              'position':'relative',
+              'display': 'block'
+            });
+
+            setTimeout(function(){
+              $modal_cont_item.not(itemCurrent).hide();
+              page_flag = false;
+
+              if (typeof params.after_change === 'function') {
+                params.after_change(e);
+              }
+            },16);
+        },params.duration + 16);
+      },16);
+
+    }
+
+    function next(e) {
+      console.log(page_flag);
+      if(page_flag) return;
+      page_flag = true;
+      setTimeout(function(){
+        $modal_cont.css({
+          opacity:0
+        });
+        setTimeout(function(){
+          if( item_now >= $modal_cont_item.length -1){
+            item_now = -1;
+          }
+          item_now++;
+          change();
+        },params.duration + 16);
+      },16);
+    }
+
+    function prev(e) {
+      if(page_flag) return;
+      page_flag = true;
+      setTimeout(function(){
+        $modal_cont.css({
+          opacity:0
+        });
+        setTimeout(function(){
+          if( item_now === 0){
+            item_now = $modal_cont_item.length;
+          }
+          item_now--;
+          change();
+        },params.duration + 16);
+      },16);
+    }
+
+    function lazyLoad(e) {
 
       var lazy_delayTime = 300;
 
@@ -220,7 +304,6 @@
 
         // 画像遅延トリガー
         var itemCurrent = $modal_cont_item.eq(item_now);
-        console.log(itemCurrent);
         itemCurrent.find('img').trigger('imagesLoad');
       },lazy_delayTime);
 
@@ -245,7 +328,6 @@
           }
         }
       });
-
     }
 
     var init = (function() {
@@ -254,16 +336,33 @@
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
+        // グローバル変数 fModal_itemCurrent and fModal_itemLength
         item_now = $open.index(this);
+        fModal_itemCurrent = item_now;
+        item_length = $modal_cont_item.length;
+        fModal_itemLength = item_length;
+
         open(e);
 
       });
       $close.on('click.fModal', function(e) {
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
-
         close(e);
       });
+
+      // Prev and Next Event
+      $prev.on('click.fModal', function(e) {
+        e.stopPropagation ? e.stopPropagation() : '';
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+        prev(e);
+      });
+      $next.on('click.fModal', function(e) {
+        e.stopPropagation ? e.stopPropagation() : '';
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+        next(e);
+      });
+
 
       $page
         .css({
@@ -303,4 +402,3 @@
     }());
   };
 }(jQuery));
-
