@@ -51,6 +51,38 @@
 <body class="fModal-opened">
   <div class="fModal-page">
     <h1>Normal Contents</h1>
+    <p><a class="fModal-open" href="#">MODAL OPEN</a></p>
+    <p>This is normal contents.</p>
+  </div>
+
+  <div class="fModal-modal">
+    <div class="fModal-modal_cont">
+      <h2>Modal Contents</h2>
+      <p><a class="fModal-close" href="#">MODAL CLOSE</a></p>
+      <p>This is modal contents.</p>
+    </div>
+  </div>
+
+  <!-- jquery読み込み -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+  <!-- プラグインファイル読み込み -->
+  <script src="jquery.fModal.js" type="text/javascript"></script>
+  <!-- jquery.fModal.jsプラグイン読み込み -->
+  <script>
+  $(function() {
+    $.fModal();
+  });
+  </script>
+</body>
+
+```
+
+## 使用例(画像遅延読み込みあり) / Example for lazy-load
+```html
+
+<body class="fModal-opened">
+  <div class="fModal-page">
+    <h1>Normal Contents</h1>
     <p><a class="fModal-open" href="#">MODAL OPEN-1</a></p>
     <p><a class="fModal-open" href="#">MODAL OPEN-2</a></p>
     <p><a class="fModal-open" href="#">MODAL OPEN-3</a></p>
@@ -63,14 +95,17 @@
       <div class="fModal-modal_cont_item">
         <p><a class="fModal-close" href="#">MODAL CLOSE-1</a></p>
         <div><img class="fModal-lazy" data-original="image/img_1.jpg" alt="" /></div>
+        <p>This is modal contents.</p>
       </div>
       <div class="fModal-modal_cont_item">
         <p><a class="fModal-close" href="#">MODAL CLOSE-2</a></p>
         <div><img class="fModal-lazy" data-original="image/img_2.jpg" alt="" /></div>
+        <p>This is modal contents.</p>
       </div>
       <div class="fModal-modal_cont_item">
         <p><a class="fModal-close" href="#">MODAL CLOSE-3</a></p>
         <div><img class="fModal-lazy" data-original="image/img_3.jpg" alt="" /></div>
+        <p>This is modal contents.</p>
       </div>
     </div>
   </div>
@@ -87,46 +122,6 @@
         lazy_flag: true,
       });
     });
-  </script>
-</body>
-
-```
-
-## 使用例(画像遅延読み込みあり) / Example for lazy-load
-```html
-
-<body class="fModal-opened">
-  <div class="fModal-page">
-    <h1>Normal Contents</h1>
-    <p><a class="fModal-open" href="#">MODAL OPEN</a></p>
-    <p>This is normal contents.</p>
-  </div>
-
-  <div class="fModal-modal">
-    <div class="fModal-modal_cont">
-      <h2>Modal Contents</h2>
-      <p><a class="fModal-close" href="#">MODAL CLOSE</a></p>
-      <div class="fModal-modal_cont_item">
-        <p>This is modal contents.</p>
-        <img data-original="./image/img_1.jpg" alt="" width="800" height="533" class="fModal-lazy">
-        <img data-original="./image/img_2.jpg" alt="" width="800" height="533" class="fModal-lazy">
-        <img data-original="./image/img_3.jpg" alt="" width="800" height="533" class="fModal-lazy">
-      </div>
-    </div>
-  </div>
-
-  <!-- jquery読み込み -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
-  <!-- プラグインファイル読み込み -->
-  <script src="jquery.lazyload.js" type="text/javascript"></script>
-  <script src="jquery.fModal.js" type="text/javascript"></script>
-  <!-- jquery.fModal.jsプラグイン読み込み -->
-  <script>
-  $(function() {
-    $.fModal({
-      lazy_flag: true,
-    });
-  });
   </script>
 </body>
 
