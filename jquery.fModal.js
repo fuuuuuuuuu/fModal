@@ -31,6 +31,7 @@
         modal_cont_item_classname: 'fModal-modal_cont_item',
         opened_classname: 'fModal-opened',
         load_classname: 'fModal-load',
+        lazy_classname: 'fModal-lazy',
       },
 
       params = $.extend({}, default_options, options),
@@ -43,6 +44,7 @@
       $page = $('.' + params.page_classname),
       $close = $('.' + params.close_classname),
       $load = $('.' + params.load_classname),
+      $lazy = $('.' + params.lazy_classname),
 
       topPosition,
 
@@ -214,7 +216,7 @@
 
       setTimeout(function(){
         lazy_count = 0;
-        lazy_len = $modal_cont_item.eq(item_now).find('.lazy').length;
+        lazy_len = $modal_cont_item.eq(item_now).find($lazy).length;
 
         // 画像遅延トリガー
         var itemCurrent = $modal_cont_item.eq(item_now);
@@ -223,7 +225,7 @@
 
 
       // lazyload
-      $modal.find('.lazy').lazyload({
+      $modal.find($lazy).lazyload({
         event: 'imagesLoad',
         load: function(e){
           lazy_count++;
