@@ -38,13 +38,15 @@
     modal_classname: 'fModal-modal', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。 **★必須**
     modal_cont_classname: 'fModal-modal_cont', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。
     opened_classname: 'fModal-body' //モーダルウィンドウが開いている時に`body`要素に付与されるクラス名を変更できます。モーダルを閉じる時に、body要素をopacity:0;にする必要があるので必ず付与してください。 **★必須**
+
+    // for lazy-load
     load_classname: 'fModal-load' //モーダル内画像を遅延読み込みする場合、ロード時に表示するローディング画像（もしくはそれを覆う要素）のクラス名を変更できます。
     lazy_classname: 'fModal-lazy' //遅延読み込み対象の画像に付与するクラス名を変更できます。
   });
 
 ```
 
-## 使用例 / Example
+## 使用例(画像遅延読み込みなし) / Example
 ```html
 
 <body class="fModal-opened">
@@ -70,6 +72,46 @@
   <script>
   $(function() {
     $.fModal();
+  });
+  </script>
+</body>
+
+```
+
+## 使用例(画像遅延読み込みあり) / Example for lazy-load
+```html
+
+<body class="fModal-opened">
+  <div class="fModal-page">
+    <h1>Normal Contents</h1>
+    <p><a class="fModal-open" href="#">MODAL OPEN</a></p>
+    <p>This is normal contents.</p>
+  </div>
+
+  <div class="fModal-modal">
+    <div class="fModal-modal_cont">
+      <h2>Modal Contents</h2>
+      <p><a class="fModal-close" href="#">MODAL CLOSE</a></p>
+      <div class="fModal-modal_cont_item">
+        <p>This is modal contents.</p>
+        <img data-original="./image/img_1.jpg" alt="" width="800" height="533" class="fModal-lazy">
+        <img data-original="./image/img_2.jpg" alt="" width="800" height="533" class="fModal-lazy">
+        <img data-original="./image/img_3.jpg" alt="" width="800" height="533" class="fModal-lazy">
+      </div>
+    </div>
+  </div>
+
+  <!-- jquery読み込み -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+  <!-- プラグインファイル読み込み -->
+  <script src="jquery.lazyload.js" type="text/javascript"></script>
+  <script src="jquery.fModal.js" type="text/javascript"></script>
+  <!-- jquery.fModal.jsプラグイン読み込み -->
+  <script>
+  $(function() {
+    $.fModal({
+      lazy_flag: true,
+    });
   });
   </script>
 </body>
