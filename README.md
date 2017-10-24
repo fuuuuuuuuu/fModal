@@ -2,6 +2,17 @@
 ## ページ内にモーダルウィンドウを生成するためのjQueryプラグインです。
 ※透過背景には対応していません。
 
+## 仕組み / How it works
+
+モーダルウィンドウ以外の通常コンテンツを非表示(display:none)にすると同時に、モーダルウィンドウを表示(display:block)させています。  
+通常コンテンツとモーダルコンテンツをスイッチしていると考えていただくとわかりやすいかもしれません。
+ですので、よくある”モーダルウィンドウの透過背景の下に通常コンテンツが見えている状態”というのは再現できません。  
+なぜこのような仕様にしたかというと、"position:fixed" や "z-index" を駆使してあれこれするのも良い方法だと思いますが、  
+如何せん不具合が多く実装の難易度が高くなりがちです。  
+特にタッチデバイスにおいてのスクロール操作においては、ユーザビリティを妨げる要因にもなり得ます。  
+そこで、本プラグインですが、透過背景を諦める代わりに、操作性は通常コンテンツと全く同じもの実現しています。  
+どうしても透過背景が必要な場合を除いて、ユーザーの操作性を重視するなら本プラグインをおすすめします。
+
 ## 使用方法 / How to use
 
 モーダル部分と、それ以外の（モーダル非表示時に表示されている）部分を同階層で分割してマークアップしてください。
@@ -15,19 +26,18 @@
 
   $.fModal({
 
-    // option
     type: 'fade', //モーダルウィンドウ表示時のアニメーションタイプ。現バージョンでは`fade`のみです。
     duration: 350, //モーダルウィンドウ表示時のアニメーションスピード。
     easing: 'swing', //モーダルウィンドウ表示時のアニメーションイージング。CSSアニメーションの場合は反映されず、`ease-in-out`が適応されます。
     scroll_top: true, //モーダルウィンドウを毎回ページトップから表示するかどうか。
     velocity_js: true, //jQueryプラグイン版の`velocity.js`を導入している場合、`velocity.js`アニメーションの使用の可否を設定できます。
     css_animation: true, //CSS3の`transition`アニメーションが使用可能な場合、`transition`アニメーションの使用の可否を設定できます。
-    // function
+
     before_open: function(e) {}, //モーダルウィンドウを表示する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     after_open: function(e) {}, //モーダルウィンドウを表示する直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     before_close: function(e) {}, //モーダルウィンドウを非表示にする直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     after_close: function(e) {}, //モーダルウィンドウを非表示にした直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
-    // class-name
+
     open_classname: 'fModal-open', //モーダルウィンドウを表示するためにクリックする要素のクラス名を変更できます。 **★必須**
     close_classname: 'fModal-close', //モーダルウィンドウを非表示にするためにクリックする要素のクラス名を変更できます。 **★必須**
     page_classname: 'fModal-page', //通常のコンテンツを覆う要素のクラス名を変更できます。モーダル表示時には非表示となります。 **★必須**
@@ -38,16 +48,17 @@
 
     // for lazy-load
     lazy_flag: false, //jQueryプラグイン`jquery.lazyload.js`を導入している場合、モーダル内画像を遅延読み込みするかを設定できます。
+    modal_cont_item_classname: 'fModal-modal_cont_item' // lazy-load対象をページごとにグループ分けするためのクラスです。この中のクラス名"fModal-lazy"を検索して全て表示し終えたのちmodal_cont_classnameが表示されます。lazy-loadを使用する場合は、必ずmodal_cont_classnameの中にこのmodal_cont_item_classnameを作ってその中にコンテンツを記述してください。
     load_classname: 'fModal-load' //モーダル内画像を遅延読み込みする場合、ロード時に表示するローディング画像（もしくはそれを覆う要素）のクラス名を変更できます。
     lazy_classname: 'fModal-lazy' //遅延読み込み対象の画像に付与するクラス名を変更できます。
 
     // for lazy-load-multi
     fModal_currentItem: ページ番号変数です。※変数名変更不可
     fModal_itemLength: ページの総数を返す変数です。※変数名変更不可
-    before_change: function(e) {}, // モーダル内でページ遷移する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
-    after_change: function(e) {}, // モーダル内でページ遷移した直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
-    prev_classname: 'fModal-prev'
-    next_classname: 'fModal-next'
+    before_change: function(e) {}, //モーダル内でページ遷移する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+    after_change: function(e) {}, //モーダル内でページ遷移した直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+    prev_classname: 'fModal-prev' //モーダル内でクリックすると前ページへ遷移する要素のクラス名を変更できます。
+    next_classname: 'fModal-next' //モーダル内でクリックすると次ページへ遷移する要素のクラス名を変更できます。
 
   });
 
@@ -75,7 +86,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
   <!-- プラグインファイル読み込み -->
   <script src="jquery.fModal.js" type="text/javascript"></script>
-  <!-- jquery.fModal.jsプラグイン読み込み -->
+  <!-- jquery.fModal_lazy.jsプラグイン読み込み -->
   <script>
   $(function() {
     $.fModal();
@@ -97,10 +108,10 @@
     <p>This is normal contents.</p>
   </div>
 
-  <div class="fModal-modal" style="text-align: center;">
-    <div class="fModal-load" style="position: absolute; top: 50%; width: 100%;"><img class="loading" src="image/loading.gif" alt="" style="width: 40px; margin-top: -20px;"/></div>
-    <div class="fModal-prev" style="position: absolute; top: 48%; left: 5%; font-size: 30px; z-index: 10; cursor: pointer;">&#60;</div>
-    <div class="fModal-next" style="position: absolute; top: 48%; right: 5%; font-size: 30px; z-index: 10; cursor: pointer;">&#62;</div>
+  <div class="fModal-modal" style="text-align: center; background-color: rgba(0,0,0,0.5)">
+    <div class="fModal-load" style="position: fixed; top: 50%; width: 100%;"><img class="loading" src="image/loading.gif" alt="" style="width: 40px; margin-top: -20px;"/></div>
+    <div class="fModal-prev" style="position: fixed; top: 48%; left: 5%; font-size: 30px; z-index: 10; cursor: pointer;">&#60;</div>
+    <div class="fModal-next" style="position: fixed; top: 48%; right: 5%; font-size: 30px; z-index: 10; cursor: pointer;">&#62;</div>
 
     <div class="fModal-modal_cont">
       <div class="fModal-modal_cont_item">
@@ -118,6 +129,8 @@
         <div><img class="fModal-lazy" data-original="image/img_3.jpg" alt="" /></div>
         <p>This is modal contents.</p>
       </div>
+
+      <div class="paging"><span class="page-current"></span> / <span class="page-length"></span></div>
     </div>
   </div>
 
@@ -129,8 +142,16 @@
   <!-- jquery.fModal.jsプラグイン読み込み -->
   <script>
     $(function() {
+      var page_current = $('.page-current'),
+          page_length = $('.page-length');
       $.fModal({
         lazy_flag: true,
+        before_open: function(e){
+          page_length.html(fModal_itemLength);
+        },
+        before_change: function(e) {
+          page_current.html(fModal_itemCurrent + 1);
+        },
       });
     });
   </script>
@@ -139,8 +160,9 @@
 ```
 
 ## 遅延読み込みについて / about-Lazyload
+
 使用するプラグイン --> https://github.com/tuupola/jquery_lazyload  
 使用方法についてはこちらに詳しく書かれています --> http://cly7796.net/wp/javascript/plugin-jquery-lazyload/
 ### 連動の仕組み
-modal_cont_classname単位で、その中にある遅延読み込み画像(class="fModal-lazy",src-->data-original)の数を取得し、その数だけ読み込みが完了したのち、modal_cont_classnameをフェードインさせています。  
-ですので、ページタイプのコンテンツであれば表示ページごとにmodal_cont_classnameで覆って分ける必要があります。
+各modal_cont_item_classnameを１グループとし、その中にある遅延読み込み画像(class="fModal-lazy",src-->data-original)の数を取得し、その数だけ読み込みが完了したのち、modal_cont_item_classnameをフェードインさせています。  
+ですので、表示ページごとにmodal_cont_item_classnameで覆ってグループ分けする必要があります。
