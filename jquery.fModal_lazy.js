@@ -9,7 +9,7 @@
     var default_options = {
         type: 'fade',
         scroll_top: true,
-        duration: 250,
+        duration: 260,
         easing: 'swing',
 
         velocity_js: true,
@@ -420,7 +420,6 @@
         opacity: 0,
         display: 'none',
         zIndex: '9000',
-        position: 'absolute', // 要らんかも?
         top: 0,
         left: 0,
         width: '100%',

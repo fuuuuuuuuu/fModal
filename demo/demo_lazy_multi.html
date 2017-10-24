@@ -61,7 +61,7 @@
             },{
               duration: 300,
               complete:()=>{
-                moveItem.eq(fModal_itemCurrent).velocity({
+                moveItem.velocity({
                   translateX: 0,
                 },0);
               }
@@ -72,7 +72,7 @@
             },{
               duration: 300,
               complete:()=>{
-                moveItem.eq(fModal_itemCurrent).velocity({
+                moveItem.velocity({
                   translateX: 0,
                 },0);
               }
@@ -103,6 +103,12 @@
               delay: 300,
             });
           }
+        },
+        after_change: function(e){
+          moveItem.find('img').velocity({
+            'translateX': 0,
+            'translateY': 0
+          },0);
         },
         before_close: function(e){
           moveItem.eq(fModal_itemCurrent).find('img').velocity({
