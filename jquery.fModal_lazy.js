@@ -9,7 +9,7 @@
     var default_options = {
         type: 'fade',
         scroll_top: true,
-        duration: 260,
+        duration: 250,
         easing: 'swing',
 
         velocity_js: true,
@@ -91,7 +91,11 @@
       }
 
       if (params.lazy_flag) {
+        page_flag = true;
         change(e);
+        $modal_cont.css({
+          'opacity': 0
+        });
       }
 
       $page.css({
@@ -225,6 +229,7 @@
       setTimeout(function(){
         $load.css({
           'opacity': 1,
+          'display':'block'
         });
 
         setTimeout(function(){
@@ -246,7 +251,9 @@
 
             setTimeout(function(){
               $modal_cont_item.not(itemCurrent).hide();
-              page_flag = false;
+              setTimeout(function(){
+                page_flag = false;
+              },(params.duration + 16)*3);
 
               if (typeof params.after_change === 'function') {
                 params.after_change(e);
@@ -258,7 +265,6 @@
     }
 
     function next(e) {
-      console.log(page_flag);
       if(page_flag) return;
       page_flag = true;
       setTimeout(function(){
@@ -296,7 +302,7 @@
 
       var lazy_delayTime = 300;
 
-      $modal_cont.css('opacity','0');
+      // $modal_cont.css('opacity','0');
 
       setTimeout(function(){
         lazy_count = 0;
@@ -323,8 +329,8 @@
                 $modal_cont.css({
                   'opacity': 1
                 });
-              },250);
-            },600);
+              },params.duration + 16);
+            },(params.duration + 16)*2);
           }
         }
       });
@@ -378,7 +384,9 @@
         });
       $load
         .css({
-          transition: 'opacity ' + params.duration + 'ms ease-in-out'
+          transition: 'opacity ' + params.duration + 'ms ease-in-out',
+          opacity: 0,
+          display: 'none'
         });
 
       // Set CSS

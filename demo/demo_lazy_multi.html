@@ -28,6 +28,8 @@
         <div><img class="fModal-lazy" data-original="image/img_3.jpg" alt="" /></div>
         <p>This is modal contents.</p>
       </div>
+
+      <div class="paging"><span class="page-current"></span> / <span class="page-length"></span></div>
     </div>
   </div>
 
@@ -39,8 +41,16 @@
   <!-- jquery.fModal.jsプラグイン読み込み -->
   <script>
     $(function() {
+      var page_current = $('.page-current'),
+          page_length = $('.page-length');
       $.fModal({
         lazy_flag: true,
+        before_open: function(e){
+          page_length.html(fModal_itemLength);
+        },
+        before_change: function(e) {
+          page_current.html(fModal_itemCurrent + 1);
+        },
       });
     });
   </script>
