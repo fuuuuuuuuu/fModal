@@ -6,7 +6,7 @@
 
 モーダルウィンドウ以外の通常コンテンツを非表示(display:none)にすると同時に、モーダルウィンドウを表示(display:block)させています。  
 通常コンテンツとモーダルコンテンツの表示/非表示をスイッチしていると考えるとわかり易いかもしれません。  
-ですので、よくある”モーダルウィンドウの透過背景の下に通常コンテンツが見えている状態”というのは再現できません。  
+ですので、よく目にする”モーダルウィンドウの透過背景の下に通常コンテンツが見えている状態”というのは再現できません。  
 一般的な方法として"position:fixed" や "z-index" を駆使すれば、上記で述べた透過背景にも対応することはできますが、如何せん不具合が多く実装の難易度が高くなりがちです。  
 特にタッチデバイスにおいてのスクロール操作の不具合は、ユーザビリティを妨げる要因にもなり得ます。  
 そこで、本プラグインですが、透過背景を諦める代わりに、操作性は通常コンテンツと全く同じそれを実現しています。  
@@ -177,8 +177,8 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
 
 ## 遅延読み込みについて / about-Lazyload
 
-使用するプラグイン --> https://github.com/tuupola/jquery_lazyload  
-使用方法についてはこちらに詳しく書かれています --> http://cly7796.net/wp/javascript/plugin-jquery-lazyload/
+使用するプラグイン --> https://github.com/tuupola/jquery_lazyload/blob/1.x/jquery.lazyload.js  
+使用方法についてはこちらに詳しく書かれていますが、本プラグインでは特別な理由がない限り別途書き足す必要はないかと思います。 --> http://cly7796.net/wp/javascript/plugin-jquery-lazyload/
 ### 連動の仕組み
 各modal_cont_item_classnameを１グループとし、その中にある遅延読み込み画像(class="fModal-lazy",src-->data-original)の数を取得し、その数だけ読み込みが完了したのち、modal_cont_item_classnameをフェードインさせています。  
 ですので、表示ページごとにmodal_cont_item_classnameで覆ってグループ分けする必要があります。
