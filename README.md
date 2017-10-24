@@ -2,7 +2,7 @@
 ## ページ内にモーダルウィンドウを生成するためのjQueryプラグインです。
 ※透過背景には対応していません。
 
-## 仕組み / How it works
+## 概要 / How it works
 
 モーダルウィンドウ以外の通常コンテンツを非表示(display:none)にすると同時に、モーダルウィンドウを表示(display:block)させています。  
 通常コンテンツとモーダルコンテンツの表示/非表示をスイッチしていると考えるとわかり易いかもしれません。  
@@ -58,10 +58,12 @@
     lazy_classname: 'fModal-lazy' //遅延読み込み対象の画像に付与するクラス名を変更できます。
 
     // for lazy-load (When using multiple pages)
-    fModal_currentItem: ページ番号変数です。※変数名変更不可
+    fModal_itemCurrent: ページ番号変数です。※変数名変更不可
     fModal_itemLength: ページの総数を返す変数です。※変数名変更不可
+    fModal_move: ページ遷移の度にそれぞれ次の値が入ります。open => "open", close => "close", prev => "prev", next => "next" ※変数名変更不可
     before_change: function(e) {}, //モーダル内でページ遷移する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
-    after_change: function(e) {}, //モーダル内でページ遷移した直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+    during_change: function(e) {}, //モーダル内でページ遷移した直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+    after_change: function(e) {}, //モーダル内でページ遷移し、コンテンツの表示が開始された直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     prev_classname: 'fModal-prev' //モーダル内でクリックすると前ページへ遷移する要素のクラス名を変更できます。
     next_classname: 'fModal-next' //モーダル内でクリックすると次ページへ遷移する要素のクラス名を変更できます。
 
@@ -113,7 +115,7 @@
     <p>This is normal contents.</p>
   </div>
 
-  <div class="fModal-modal" style="text-align: center; background-color: rgba(0,0,0,0.5)">
+  <div class="fModal-modal" style="text-align: center;">
     <div class="fModal-load" style="position: fixed; top: 50%; width: 100%;"><img class="loading" src="image/loading.gif" alt="" style="width: 40px; margin-top: -20px;"/></div>
     <div class="fModal-prev" style="position: fixed; top: 48%; left: 5%; font-size: 30px; z-index: 10; cursor: pointer;">&#60;</div>
     <div class="fModal-next" style="position: fixed; top: 48%; right: 5%; font-size: 30px; z-index: 10; cursor: pointer;">&#62;</div>
@@ -141,6 +143,8 @@
 
   <!-- jquery読み込み -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+  <!-- velocity.js読み込み -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
   <!-- プラグインファイル読み込み -->
   <script src="../libs/jquery.lazyload.js" type="text/javascript"></script>
   <script src="../jquery.fModal_lazy.js" type="text/javascript"></script>
@@ -150,6 +154,7 @@
       var page_current = $('.page-current'),
           page_length = $('.page-length');
       $.fModal({
+        easing: 'easeInOutSine',
         lazy_flag: true,
         before_open: function(e){
           page_length.html(fModal_itemLength);

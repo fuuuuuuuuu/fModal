@@ -22,6 +22,7 @@
         before_close: function(e) {},
         after_close: function(e) {},
         before_change: function(e) {},
+        during_change: function(e) {},
         after_change: function(e) {},
 
         open_classname: 'fModal-open',
@@ -60,7 +61,8 @@
       lazy_len = 0,
       item_now,
       item_length,
-      page_flag = false;
+      page_flag = false,
+      move_direction = 'top';
 
     //animation_methodの決定
     if(params.velocity_js === true && typeof $.fn.velocity !== 'undefined') {
@@ -222,8 +224,8 @@
       var itemCurrent = $modal_cont_item.eq(item_now);
       fModal_itemCurrent = item_now;
 
-      if (typeof params.before_change === 'function') {
-        params.before_change(e);
+      if (typeof params.during_change === 'function') {
+        params.during_change(e);
       }
 
       lazyLoad(e);
@@ -253,13 +255,15 @@
 
             setTimeout(function(){
               $modal_cont_item.not(itemCurrent).hide();
-              setTimeout(function(){
-                page_flag = false;
-              },(params.duration + 16)*2);
 
               if (typeof params.after_change === 'function') {
                 params.after_change(e);
               }
+
+              setTimeout(function(){
+                page_flag = false;
+              },(params.duration + 16)*2);
+
             },16);
         },params.duration + 16);
       },16);
@@ -269,6 +273,14 @@
     function next(e) {
       if(page_flag) return;
       page_flag = true;
+
+      move_direction = 'next';
+      fModal_move = move_direction;
+
+      if (typeof params.before_change === 'function') {
+        params.before_change(e);
+      }
+
       setTimeout(function(){
         $modal_cont.css({
           opacity:0
@@ -286,6 +298,14 @@
     function prev(e) {
       if(page_flag) return;
       page_flag = true;
+
+      move_direction = 'prev';
+      fModal_move = move_direction;
+
+      if (typeof params.before_change === 'function') {
+        params.before_change(e);
+      }
+
       setTimeout(function(){
         $modal_cont.css({
           opacity:0
@@ -314,7 +334,7 @@
       },lazy_delayTime);
 
       // lazyload
-      $modal.find($lazy).lazyload({
+      $modal_cont_item.eq(item_now).find($lazy).lazyload({
         event: 'imagesLoad',
         load: function(e){
           lazy_count++;
@@ -341,11 +361,13 @@
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
-        // グローバル変数 fModal_itemCurrent and fModal_itemLength
+        // グローバル変数 fModal_itemCurrent and fModal_itemLength and fModal_move
         item_now = $open.index(this);
         fModal_itemCurrent = item_now;
         item_length = $modal_cont_item.length;
         fModal_itemLength = item_length;
+        move_direction = 'open';
+        fModal_move = move_direction;
 
         open(e);
 
@@ -353,6 +375,11 @@
       $close.on('click.fModal', function(e) {
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
+
+        // グローバル変数 fModal_move
+        move_direction = 'close';
+        fModal_move = move_direction;
+
         close(e);
       });
 
