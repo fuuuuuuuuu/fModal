@@ -21,8 +21,8 @@
 4. 下記の引数optionを利用状況によってお好みで変更を加えてください。  
 
 ### jquery.lazyload.jsと連動して画像の遅延読み込みする場合
-本プラグインでは、画像の遅延読み込み機能をオプションで備えています。
-この機能を利用するには、"jquery.fModal_lazy.js"を利用してください。
+本プラグインでは、画像の遅延読み込み機能をオプションで備えています。  
+この機能を利用するには、"jquery.fModal_lazy.js"を利用してください。  
 利用しない場合は、よりシンプルで軽量な"jquery.fModal.js"をお使いください。
 
 
@@ -57,7 +57,7 @@
     load_classname: 'fModal-load' //モーダル内画像を遅延読み込みする場合、ロード時に表示するローディング画像（もしくはそれを覆う要素）のクラス名を変更できます。
     lazy_classname: 'fModal-lazy' //遅延読み込み対象の画像に付与するクラス名を変更できます。
 
-    // for lazy-load-multi
+    // for lazy-load (When using multiple pages)
     fModal_currentItem: ページ番号変数です。※変数名変更不可
     fModal_itemLength: ページの総数を返す変数です。※変数名変更不可
     before_change: function(e) {}, //モーダル内でページ遷移する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
