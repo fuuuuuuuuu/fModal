@@ -1,0 +1,110 @@
+html, body{
+  font-size: 10px;
+}
+img{
+  width: 100%;
+}
+.fModal-page {
+    margin-top: 10rem;
+    text-align: center
+}
+
+.fModal-page .page-ttl {
+    font-size: 3rem
+}
+
+.fModal-page .list-wrapper {
+    width: 600px;
+    margin: 3rem auto 15rem
+}
+
+.fModal-page .list-wrapper .fModal-open {
+    float: left;
+    width: 31.66667%;
+    margin-right: 1.66667%;
+    height: 8rem;
+    line-height: 8rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #000;
+    cursor: pointer
+}
+
+.fModal-page .list-wrapper .fModal-open:nth-child(3) {
+    margin-right: 0
+}
+
+.fModal-modal .fModal-load {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: -1.5rem auto 0;
+    width: 3rem;
+}
+
+.fModal-modal .fModal-close {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 4rem;
+    height: 4rem;
+    background-color: #000;
+    color: #fff;
+    z-index: 10;
+    font-size: 4rem;
+    line-height: 4rem;
+    cursor: pointer
+}
+
+.fModal-modal .fModal-prev {
+    position: fixed;
+    top: 50%;
+    left: 5%;
+    margin-top: -2.5rem;
+    font-size: 5rem;
+    color: #fff;
+    width: 5rem;
+    height: 5rem;
+    line-height: 5rem;
+    z-index: 10;
+    cursor: pointer
+}
+
+.fModal-modal .fModal-next {
+    position: fixed;
+    top: 50%;
+    right: 5%;
+    margin-top: -2.5rem;
+    font-size: 5rem;
+    color: #fff;
+    width: 5rem;
+    height: 5rem;
+    line-height: 5rem;
+    z-index: 10;
+    cursor: pointer
+}
+
+.fModal-modal .fModal-modal_cont_item {
+    position: relative
+}
+
+.fModal-modal .fModal-modal_cont_item .lead {
+    position: absolute;
+    top: 50%;
+    font-size: 6rem;
+    font-weight: bold;
+    color: #fff;
+    left: 4%;
+    margin-top: -1rem
+}
+
+.fModal-modal .fModal-modal_cont_item .paging {
+    position: absolute;
+    top: 50%;
+    font-size: 4rem;
+    color: #fff;
+    left: 4%;
+    margin-top: 8rem
+}
