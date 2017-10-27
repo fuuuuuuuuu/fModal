@@ -1,7 +1,7 @@
 # fModal plug-in　β版
 ## ページ内にモーダルウィンドウを生成するためのjQueryプラグインです。
-【表示/非表示のみ対応版】**jquery.fModal.js**
-【画像遅延読み込み及びモーダル内ページ遷移対応版】**jquery.fModal_lazy.js**
+【表示/非表示のみ対応版】**jquery.fModal.js**  
+【画像遅延読み込み及びモーダル内ページ遷移対応版】**jquery.fModal_lazy.js**  
 ※透過背景には対応していません。
 
 ## 概要 / How it works
