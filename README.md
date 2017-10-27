@@ -29,8 +29,6 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
 
 
 ## 引数 / Parameters
-```js
-
   $.fModal({
 
     type: 'fade', //モーダルウィンドウ表示時のアニメーションタイプ。現バージョンでは`fade`のみです。
@@ -45,6 +43,14 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
     before_close: function(e) {}, //モーダルウィンドウを非表示にする直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     after_close: function(e) {}, //モーダルウィンドウを非表示にした直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
 
+    // for lazy-load (When using multiple pages)
+    before_change: function(e) {}, //モーダル内でページ遷移する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+    during_change: function(e) {}, //モーダル内でページ遷移した直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+    after_change: function(e) {}, //モーダル内でページ遷移し、コンテンツの表示が開始された直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+
+
+    lazy_flag: false, //jQueryプラグイン`jquery.lazyload.js`を導入している場合、モーダル内画像を遅延読み込みするかを設定できます。
+
     open_classname: 'fModal-open', //モーダルウィンドウを表示するためにクリックする要素のクラス名を変更できます。 ★必須
     close_classname: 'fModal-close', //モーダルウィンドウを非表示にするためにクリックする要素のクラス名を変更できます。 ★必須
     page_classname: 'fModal-page', //通常のコンテンツを覆う要素のクラス名を変更できます。モーダル表示時には非表示となります。 ★必須
@@ -53,19 +59,9 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
     opened_classname: 'fModal-body', //モーダルウィンドウが開いている時に`body`要素に付与されるクラス名を変更できます。
                       //モーダルを閉じる時に、body要素を一時的にopacity:0;にする必要があるので必ず付与してください。 ★必須
 
-
-    // for lazy-load
-    lazy_flag: false, //jQueryプラグイン`jquery.lazyload.js`を導入している場合、モーダル内画像を遅延読み込みするかを設定できます。
-    modal_cont_item_classname: 'fModal-modal_cont_item', // lazy-load対象をページごとにグループ分けするためのクラスです。
-                                //この中のクラス名"fModal-lazy"を検索して全て表示し終えたのちmodal_cont_classnameが表示されます。
-                                //lazy-loadを使用する場合は、必ずmodal_cont_classnameの中にこのmodal_cont_item_classnameを作ってその中にコンテンツを記述してください。
-    load_classname: 'fModal-load', //モーダル内画像を遅延読み込みする場合、ロード時に表示するローディング画像（もしくはそれを覆う要素）のクラス名を変更できます。
+    modal_cont_item_classname: 'fModal-modal_cont_item', // lazy-load対象をページごとにグループ分けするためのクラスです。この中のクラス名"fModal-lazy"を検索して全て表示し終えたのちmodal_cont_classnameが表示されます。lazy-loadを使用する場合は、必ずmodal_cont_classnameの中にこのmodal_cont_item_classnameを作ってその中にコンテンツを記述してください。
     lazy_classname: 'fModal-lazy', //遅延読み込み対象の画像に付与するクラス名を変更できます。
-
-    // for lazy-load (When using multiple pages)
-    before_change: function(e) {}, //モーダル内でページ遷移する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
-    during_change: function(e) {}, //モーダル内でページ遷移した直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
-    after_change: function(e) {}, //モーダル内でページ遷移し、コンテンツの表示が開始された直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
+    load_classname: 'fModal-load', //モーダル内画像を遅延読み込みする場合、ロード時に表示するローディング画像（もしくはそれを覆う要素）のクラス名を変更できます。
     prev_classname: 'fModal-prev', //モーダル内でクリックすると前ページへ遷移する要素のクラス名を変更できます。
     next_classname: 'fModal-next', //モーダル内でクリックすると次ページへ遷移する要素のクラス名を変更できます。
 
@@ -77,7 +73,6 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
   // fModal_move = ページ遷移ボタンもしくは開閉ボタンをクリックする度にそれぞれ次の値が入ります。
                  //openボタン => "open", closeボタン => "close", prevボタン => "prev", nextボタン => "next" ※変数名変更不可
 
-```
 
 ## 使用例(画像遅延読み込みなし) / Example
 ```html
