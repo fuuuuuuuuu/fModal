@@ -36,6 +36,7 @@
         lazy_classname: 'fModal-lazy',
         prev_classname: 'fModal-prev',
         next_classname: 'fModal-next',
+        swipe_classname: 'fModal-swipe',
       },
 
       params = $.extend({}, default_options, options),
@@ -51,6 +52,7 @@
       $lazy = $('.' + params.lazy_classname),
       $prev = $('.' + params.prev_classname),
       $next = $('.' + params.next_classname),
+      $swipe = $('.' + params.swipe_classname),
 
       topPosition,
 
@@ -395,6 +397,36 @@
         next(e);
       });
 
+      var start = [],
+          delta = [];
+
+      $swipe
+        .on('touchstart.fModal', (e) => {
+          var x = (e.changedTouches ? e.changedTouches[0].pageX : e.originalEvent.changedTouches[0].pageX),
+              y = (e.changedTouches ? e.changedTouches[0].pageY : e.originalEvent.changedTouches[0].pageY);
+
+          start = [x, y];
+        })
+        .on('touchmove.fModal', (e) => {
+          var x = (e.changedTouches ? e.changedTouches[0].pageX : e.originalEvent.changedTouches[0].pageX),
+              y = (e.changedTouches ? e.changedTouches[0].pageY : e.originalEvent.changedTouches[0].pageY);
+
+          delta = [x - start[0], y - start[1]];
+
+          if(Math.abs(delta[0]) > 50 && Math.abs(delta[1]) < 50) {
+            e.preventDefault();
+          }
+        })
+        .on('touchend.fModal', (e) => {
+          if(delta[0] > 50) {
+            prev(e);
+          } else if(delta[0] < -50) {
+            next(e);
+          }
+          delta[0] = 0;
+          delta[1] = 0;
+        });
+
 
       $page
         .css({
@@ -423,7 +455,7 @@
         top: 0,
         left: 0,
         width: '100%',
-        height: '100%',
+        height: '100vh',
       });
 
       if(animation_method === 'css_transition') {

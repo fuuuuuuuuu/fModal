@@ -68,6 +68,7 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
     load_classname: 'fModal-load', //モーダル内画像を遅延読み込みする場合、ロード時に表示するローディング画像（もしくはそれを覆う要素）のクラス名を変更できます。★lazy
     prev_classname: 'fModal-prev', //モーダル内でクリックすると前ページへ遷移する要素のクラス名を変更できます。★lazy_multi
     next_classname: 'fModal-next', //モーダル内でクリックすると次ページへ遷移する要素のクラス名を変更できます。★lazy_multi
+    swipe_classname: 'fModal-swipe', //タッチデバイスでスワイプするとページ遷移することができる要素のクラス名を変更できます。★lazy_multi
 
   });
 
