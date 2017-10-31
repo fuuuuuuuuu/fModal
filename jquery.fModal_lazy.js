@@ -401,13 +401,13 @@
           delta = [];
 
       $swipe
-        .on('touchstart.fModal', (e) => {
+        .on('touchstart.fModal', function(e) {
           var x = (e.changedTouches ? e.changedTouches[0].pageX : e.originalEvent.changedTouches[0].pageX),
               y = (e.changedTouches ? e.changedTouches[0].pageY : e.originalEvent.changedTouches[0].pageY);
 
           start = [x, y];
         })
-        .on('touchmove.fModal', (e) => {
+        .on('touchmove.fModal', function(e) {
           var x = (e.changedTouches ? e.changedTouches[0].pageX : e.originalEvent.changedTouches[0].pageX),
               y = (e.changedTouches ? e.changedTouches[0].pageY : e.originalEvent.changedTouches[0].pageY);
 
@@ -417,7 +417,7 @@
             e.preventDefault();
           }
         })
-        .on('touchend.fModal', (e) => {
+        .on('touchend.fModal', function(e) {
           if(delta[0] > 50) {
             prev(e);
           } else if(delta[0] < -50) {
