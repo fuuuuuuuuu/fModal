@@ -26,6 +26,7 @@
         modal_classname: 'fModal-modal',
         modal_cont_classname: 'fModal-modal_cont',
         opened_classname: 'fModal-opened',
+        scroll_classname: 'fModal-innerScroll',
       },
 
       params = $.extend({}, default_options, options),
@@ -36,6 +37,7 @@
       $modal_cont = $('.' + params.modal_cont_classname),
       $page = $('.' + params.page_classname),
       $close = $('.' + params.close_classname),
+      $scroll_class = ('.' + params.scroll_classname),
 
       topPosition,
 
@@ -65,7 +67,15 @@
 
       topPosition = $(window).scrollTop();
 
-      // もし「before_open関数」に記述があれば実行
+      // スクロール用ポジション格納配列
+      $scroll.each(function() {
+        href = $(this).attr("href");
+        target = $(href == "#" || href == "" ? 'html' : href);
+        position = target.offset().top;
+
+        memoryPosition.push(position);
+      });
+
       if (typeof params.before_open === 'function') {
         params.before_open(e);
       }
@@ -112,7 +122,6 @@
             break;
           }
 
-          // もし「after_open関数」に記述があれば実行
           open_timeout = setTimeout(function() {
             if (typeof params.after_open === 'function') {
               params.after_open(e);
@@ -227,6 +236,15 @@
           transition: 'opacity ' + params.duration + 'ms ease-in-out'
         });
       }
+
+      $modal_cont.find($scroll_class).on('click.fModal', function(e) {
+        e.stopPropagation ? e.stopPropagation() : '';
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+
+        scroll_num = $modal_cont.find($scroll_class).index(this);
+        topPosition = memoryPosition[scroll_num];
+        close(e);
+      });
 
     }());
   };

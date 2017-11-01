@@ -158,7 +158,6 @@
             break;
           }
 
-          // もし「after_open関数」に記述があれば実行
           open_timeout = setTimeout(function() {
             if (typeof params.after_open === 'function') {
               params.after_open(e);
