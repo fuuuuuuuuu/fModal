@@ -68,13 +68,15 @@
       topPosition = $(window).scrollTop();
 
       // スクロール用ポジション格納配列
-      $scroll.each(function() {
-        href = $(this).attr("href");
-        target = $(href == "#" || href == "" ? 'html' : href);
-        position = target.offset().top;
+      if($scroll.length > 1){
+        $scroll.each(function() {
+          href = $(this).attr("href");
+          target = $(href == "#" || href == "" ? 'html' : href);
+          position = target.offset().top;
 
-        memoryPosition.push(position);
-      });
+          memoryPosition.push(position);
+        });
+      }
 
       if (typeof params.before_open === 'function') {
         params.before_open(e);
@@ -237,7 +239,7 @@
         });
       }
 
-      $modal_cont.find($scroll_class).on('click.fModal', function(e) {
+      $modal.find($scroll_class).on('click.fModal', function(e) {
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
