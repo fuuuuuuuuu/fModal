@@ -36,6 +36,7 @@
         lazy_classname: 'fModal-lazy',
         prev_classname: 'fModal-prev',
         next_classname: 'fModal-next',
+        nav_classname: 'fModal-nav',
         swipe_classname: 'fModal-swipe',
         scroll_classname: 'fModal-innerScroll',
       },
@@ -53,6 +54,7 @@
       $lazy = $('.' + params.lazy_classname),
       $prev = $('.' + params.prev_classname),
       $next = $('.' + params.next_classname),
+      $nav = $('.' + params.nav_classname),
       $swipe = $('.' + params.swipe_classname),
       $scroll = $('.' + params.scroll_classname),
       $scroll_class = ('.' + params.scroll_classname),
@@ -238,7 +240,6 @@
       }, 16);
     }
 
-
     function change(e) {
       var itemCurrent = $modal_cont_item.eq(item_now);
       fModal_itemCurrent = item_now;
@@ -286,7 +287,6 @@
             },16);
         },params.duration + 16);
       },16);
-
     }
 
     function next(e) {
@@ -334,6 +334,38 @@
             item_now = $modal_cont_item.length;
           }
           item_now--;
+          change();
+        },params.duration + 16);
+      },16);
+    }
+
+    function nav(e) {
+
+      if(page_flag) return;
+      page_flag = true;
+
+      if(item_reserve_now < item_now){
+        move_direction = 'prev';
+        fModal_move = move_direction;
+      } else if(item_reserve_now > item_now){
+        move_direction = 'next';
+        fModal_move = move_direction;
+      } else if(item_reserve_now === item_now){
+        page_flag = false;
+        return;
+      }
+      item_now = item_reserve_now;
+      fModal_itemCurrent = item_now;
+
+      if (typeof params.before_change === 'function') {
+        params.before_change(e);
+      }
+
+      setTimeout(function(){
+        $modal_cont.css({
+          opacity:0
+        });
+        setTimeout(function(){
           change();
         },params.duration + 16);
       },16);
@@ -412,6 +444,14 @@
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
         next(e);
+      });
+
+      // Nav Event
+      $nav.on('click.fModal', function(e) {
+        e.stopPropagation ? e.stopPropagation() : '';
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+        item_reserve_now = $nav.index(this);
+        nav(e);
       });
 
       var start = [],
