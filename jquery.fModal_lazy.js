@@ -91,23 +91,22 @@
       }());
     }
 
-    function open(e) {
+    function open(e,n,l,d) {
 
       topPosition = $(window).scrollTop();
 
       // スクロール用ポジション格納配列
-      if($scroll.length > 1){
+      if($scroll.length){
         $scroll.each(function() {
           href = $(this).attr("href");
           target = $(href == "#" || href == "" ? 'html' : href);
           position = target.offset().top;
-
           memoryPosition.push(position);
         });
       }
 
       if (typeof params.before_open === 'function') {
-        params.before_open(e);
+        params.before_open(e,n,l,d);
       }
 
       if (params.lazy_flag) {
@@ -164,16 +163,16 @@
 
           open_timeout = setTimeout(function() {
             if (typeof params.after_open === 'function') {
-              params.after_open(e);
+              params.after_open(e,n,l,d);
             }
           }, params.duration + 16);
         }, 16);
       }, params.duration + 16);
     }
 
-    function close(e) {
+    function close(e,n,l,d) {
       if (typeof params.before_close === 'function') {
-        params.before_close(e);
+        params.before_close(e,n,l,d);
       }
 
       clearTimeout(open_timeout);
@@ -232,7 +231,7 @@
               });
 
               if (typeof params.after_close === 'function') {
-                params.after_close(e);
+                params.after_close(e,n,l,d);
               }
             }, 16);
           }, 16);
@@ -240,12 +239,17 @@
       }, 16);
     }
 
-    function change(e) {
+    function change(e,n,l,d) {
       var itemCurrent = $modal_cont_item.eq(item_now);
       fModal_itemCurrent = item_now;
 
+      d = move_direction;
+      n = item_now;
+      item_length = $modal_cont_item.length;
+      l = item_length;
+
       if (typeof params.during_change === 'function') {
-        params.during_change(e);
+        params.during_change(e,n,l,d);
       }
 
       lazyLoad(e);
@@ -277,7 +281,7 @@
               $modal_cont_item.not(itemCurrent).hide();
 
               if (typeof params.after_change === 'function') {
-                params.after_change(e);
+                params.after_change(e,n,l,d);
               }
 
               setTimeout(function(){
@@ -289,15 +293,18 @@
       },16);
     }
 
-    function next(e) {
+    function next(e,n,l,d) {
       if(page_flag) return;
       page_flag = true;
 
       move_direction = 'next';
-      fModal_move = move_direction;
+      d = move_direction;
+      n = item_now;
+      item_length = $modal_cont_item.length;
+      l = item_length;
 
       if (typeof params.before_change === 'function') {
-        params.before_change(e);
+        params.before_change(e,n,l,d);
       }
 
       setTimeout(function(){
@@ -309,20 +316,24 @@
             item_now = -1;
           }
           item_now++;
-          change();
+          change(e,n,l,d);
         },params.duration + 16);
       },16);
     }
 
-    function prev(e) {
+    function prev(e,n,l,d) {
       if(page_flag) return;
       page_flag = true;
 
       move_direction = 'prev';
-      fModal_move = move_direction;
+      d = move_direction;
+      n = item_now;
+      item_length = $modal_cont_item.length;
+      l = item_length;
+
 
       if (typeof params.before_change === 'function') {
-        params.before_change(e);
+        params.before_change(e,n,l,d);
       }
 
       setTimeout(function(){
@@ -334,12 +345,12 @@
             item_now = $modal_cont_item.length;
           }
           item_now--;
-          change();
+          change(e,n,l,d);
         },params.duration + 16);
       },16);
     }
 
-    function nav(e) {
+    function nav(e,n,l,d) {
 
       if(page_flag) return;
       page_flag = true;
@@ -366,7 +377,7 @@
           opacity:0
         });
         setTimeout(function(){
-          change();
+          change(e,n,l,d);
         },params.duration + 16);
       },16);
     }
@@ -408,50 +419,54 @@
 
     var init = (function() {
       // Open and Close Event
-      $open.on('click.fModal', function(e) {
+      $open.on('click.fModal', function(e,n,l,d) {
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
         // グローバル変数 fModal_itemCurrent and fModal_itemLength and fModal_move
         item_now = $open.index(this);
-        fModal_itemCurrent = item_now;
+        n = item_now;
         item_length = $modal_cont_item.length;
-        fModal_itemLength = item_length;
+        l = item_length;
         move_direction = 'open';
-        fModal_move = move_direction;
+        d = move_direction;
 
-        open(e);
+        open(e,n,l,d);
 
       });
-      $close.on('click.fModal', function(e) {
+      $close.on('click.fModal', function(e,n,l,d) {
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
+        item_now = $open.index(this);
+        n = item_now;
+        item_length = $modal_cont_item.length;
+        l = item_length;
         // グローバル変数 fModal_move
         move_direction = 'close';
-        fModal_move = move_direction;
+        d = move_direction;
 
-        close(e);
+        close(e,n,l,d);
       });
 
       // Prev and Next Event
-      $prev.on('click.fModal', function(e) {
+      $prev.on('click.fModal', function(e,n,l,d) {
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
-        prev(e);
+        prev(e,n,l,d);
       });
-      $next.on('click.fModal', function(e) {
+      $next.on('click.fModal', function(e,n,l,d) {
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
-        next(e);
+        next(e,n,l,d);
       });
 
       // Nav Event
-      $nav.on('click.fModal', function(e) {
+      $nav.on('click.fModal', function(e,n,l,d) {
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
         item_reserve_now = $nav.index(this);
-        nav(e);
+        nav(e,n,l,d);
       });
 
       var start = [],
