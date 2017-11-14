@@ -117,6 +117,8 @@
         setTimeout(function(){
           change(e);
         },300);
+      } else{
+        change(e);
       }
 
       $page.css({
@@ -241,7 +243,6 @@
 
     function change(e,n,l,d) {
       var itemCurrent = $modal_cont_item.eq(item_now);
-      fModal_itemCurrent = item_now;
 
       d = move_direction;
       n = item_now;
@@ -252,7 +253,9 @@
         params.during_change(e,n,l,d);
       }
 
-      lazyLoad(e);
+      if(params.lazy_flag) {
+        lazyLoad(e);
+      }
 
       setTimeout(function(){
         $load.css({
@@ -276,6 +279,11 @@
               'position':'relative',
               'display': 'block'
             });
+
+          // lazy = false の場合は自動的に表示する
+          if(params.lazy_flag !== true) {
+            $modal_cont.css('opacity',1);
+          }
 
             setTimeout(function(){
               $modal_cont_item.not(itemCurrent).hide();
