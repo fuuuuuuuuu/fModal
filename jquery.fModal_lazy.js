@@ -1,5 +1,5 @@
 /*!
- * jQuery fModal_lazy v1.0
+ * jQuery fModal_lazy v1.10
  * Copyright 2017 maam.inc
  * Contributing Author: Yusuke Fukunaga
  * Require for jQuery v1.7 or above
@@ -11,6 +11,9 @@
         scroll_top: true,
         duration: 260,
         easing: 'swing',
+
+        innerScroll_duration: 450,
+        innerScroll_offset: 0,
 
         velocity_js: true,
         css_animation: true,
@@ -31,7 +34,7 @@
         modal_classname: 'fModal-modal',
         modal_cont_classname: 'fModal-modal_cont',
         modal_cont_item_classname: 'fModal-modal_cont_item',
-        opened_classname: 'fModal-opened',
+        // opened_classname: 'fModal-opened',
         load_classname: 'fModal-load',
         lazy_classname: 'fModal-lazy',
         prev_classname: 'fModal-prev',
@@ -43,7 +46,7 @@
 
       params = $.extend({}, default_options, options),
 
-      $opened = $('.' + params.opened_classname),
+      // $opened = $('.' + params.opened_classname),
       $open = $('.' + params.open_classname),
       $modal = $('.' + params.modal_classname),
       $modal_cont = $('.' + params.modal_cont_classname),
@@ -58,9 +61,13 @@
       $swipe = $('.' + params.swipe_classname),
       $scroll = $('.' + params.scroll_classname),
       $scroll_class = ('.' + params.scroll_classname),
+      $scroll_duration = (params.innerScroll_duration),
+      $scroll_offset = (params.innerScroll_offset),
 
       topPosition,
       memoryPosition = [],
+      scroll_position,
+      scroll_href,
 
       open_timeout,
       animation_method = 'jquery_animate',
@@ -70,6 +77,7 @@
       item_now,
       item_length,
       page_flag = false,
+      open_flag = false,
       move_direction = 'top';
 
     //animation_methodの決定
@@ -92,6 +100,9 @@
     }
 
     function open(e,n,l,d) {
+
+      if(open_flag) return;
+      open_flag = true;
 
       topPosition = $(window).scrollTop();
 
@@ -121,58 +132,61 @@
         change(e);
       }
 
-      $page.css({
-        'opacity': 0,
-      });
-
       // open関数実行部分
       setTimeout(function() {
-        $page.css('display','none');
 
         $modal.css({
           display: 'block',
         });
 
-        if (params.scroll_top) {
-          $(window).scrollTop(0);
+        switch(animation_method) {
+          case 'velocity':
+            $modal.velocity({
+              opacity: 1
+            },{
+              duration: params.duration,
+              easing: params.easing
+            });
+
+          break;
+          case 'css_transition':
+            $modal.css({
+              opacity: 1
+            });
+            break;
+          case 'jquery_animate':
+            $modal.animate({
+              opacity: 1
+            },{
+              duration: params.duration,
+              easing: params.easing
+            });
+          break;
         }
 
-        setTimeout(function() {
-          switch(animation_method) {
-            case 'velocity':
-              $modal.velocity({
-                opacity: 1
-              },{
-                duration: params.duration,
-                easing: params.easing
-              });
-
-            break;
-            case 'css_transition':
-              $modal.css({
-                opacity: 1
-              });
-              break;
-            case 'jquery_animate':
-              $modal.animate({
-                opacity: 1
-              },{
-                duration: params.duration,
-                easing: params.easing
-              });
-            break;
+        setTimeout(function(){
+          if (params.scroll_top) {
+            $modal.scrollTop(0);
           }
+        },16)
 
+        setTimeout(function() {
           open_timeout = setTimeout(function() {
+            $page.css('display','none');
             if (typeof params.after_open === 'function') {
               params.after_open(e,n,l,d);
             }
-          }, params.duration + 16);
-        }, 16);
-      }, params.duration + 16);
+            open_flag = false;
+          }, 16);
+        }, params.duration);
+      }, 16);
     }
 
     function close(e,n,l,d) {
+
+      if(open_flag) return;
+      open_flag = true;
+
       if (typeof params.before_close === 'function') {
         params.before_close(e,n,l,d);
       }
@@ -181,63 +195,67 @@
 
       setTimeout( function(){
 
-        $opened.css({
-          opacity: 0,
+        $page.css({
+          display: 'block',
         });
 
-        setTimeout( function(){
+        setTimeout(function() {
+          $(window).scrollTop(topPosition);
 
-          $page.css({
-            display: 'block',
-            opacity: 1
-          });
+          switch(animation_method) {
+            case 'velocity':
+              $modal.velocity({
+                opacity: 0
+              },{
+                duration: params.duration,
+                easing: params.easing
+              });
+
+              if(scroll_position){
+                $(scroll_href)
+                  .velocity("scroll", { duration: $scroll_duration, easing: "easeOutQuint"});
+              }
+
+            break;
+            case 'css_transition':
+              $modal.css({
+                opacity: 0
+              });
+
+              if(scroll_position){
+                $("html,body").animate({scrollTop:$(scroll_href).offset().top}, $scroll_duration, 'easeOutQuint');
+              }
+              break;
+            case 'jquery_animate':
+              $modal.animate({
+                opacity: 0
+              },{
+                duration: params.duration,
+                easing: params.easing
+              });
+
+              if(scroll_position){
+                $("html,body").animate({scrollTop:$(scroll_href).offset().top}, $scroll_duration, 'easeOutQuint');
+              }
+            break;
+          }
+
 
           setTimeout(function() {
-            $(window).scrollTop(topPosition);
+            $modal.css({
+              display: 'none'
+            });
 
-            switch(animation_method) {
-              case 'velocity':
-                $modal.velocity({
-                  opacity: 0
-                },{
-                  duration: params.duration,
-                  easing: params.easing
-                });
-
-              break;
-              case 'css_transition':
-                $modal.css({
-                  opacity: 0
-                });
-                break;
-              case 'jquery_animate':
-                $modal.animate({
-                  opacity: 0
-                },{
-                  duration: params.duration,
-                  easing: params.easing
-                });
-              break;
+            if (typeof params.after_close === 'function') {
+              params.after_close(e,n,l,d);
             }
+            // スクロール用ポジション格納配列初期化
+            memoryPosition.length = 0;
+            scroll_position = false;
 
-            setTimeout(function() {
-
-              // スクロール用ポジション格納配列初期化
-              memoryPosition.length = 0;
-
-              $modal.css({
-                display: 'none'
-              });
-              $opened.css({
-                opacity: 1
-              });
-
-              if (typeof params.after_close === 'function') {
-                params.after_close(e,n,l,d);
-              }
-            }, 16);
-          }, 16);
-        },params.duration + 16);
+            open_flag = false;
+          }, params.duration);
+        }, 16);
       }, 16);
     }
 
@@ -512,10 +530,10 @@
         .css({
           transition: 'opacity ' + params.duration + 'ms ease-in-out'
         });
-      $opened
-        .css({
-          transition: 'opacity ' + params.duration + 'ms ease-in-out'
-        });
+      // $opened
+      //   .css({
+      //     transition: 'opacity ' + params.duration + 'ms ease-in-out'
+      //   });
       $modal_cont
         .css({
           transition: 'opacity ' + params.duration + 'ms ease-in-out'
@@ -532,10 +550,12 @@
         opacity: 0,
         display: 'none',
         zIndex: '9000',
+        position: 'fixed',
         top: 0,
         left: 0,
         width: '100%',
         height: '100vh',
+        'overflow-y': 'auto',
       });
 
       if(animation_method === 'css_transition') {
@@ -549,6 +569,16 @@
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
         scroll_num = $modal_cont.find($scroll_class).index(this);
+
+          scroll_href = $(this).attr('href');
+
+          if(memoryPosition[scroll_num] < topPosition){
+            scroll_position = 'up';
+            memoryPosition[scroll_num] += $scroll_offset;
+          } else if(memoryPosition[scroll_num] > topPosition){
+            scroll_position = 'down';
+            memoryPosition[scroll_num] += -$scroll_offset;
+          }
         topPosition = memoryPosition[scroll_num];
         close(e);
       });

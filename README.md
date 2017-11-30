@@ -42,6 +42,8 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
     type: 'fade', //モーダルウィンドウ表示時のアニメーションタイプ。現バージョンでは`fade`のみです。
     duration: 350, //モーダルウィンドウ表示時のアニメーションスピード。
     easing: 'swing', //モーダルウィンドウ表示時のアニメーションイージング。CSSアニメーションの場合は反映されず、`ease-in-out`が適応されます。
+    innerScroll_duration: 450, //メニュー等でページ内移動する際、フェードアウトしながらスクロールを発生させることができ、そのアニメーションスピードを設定できます。
+    innerScroll_offset: 0, //メニュー等でページ内移動する際、フェードアウトしながらスクロールを発生させることができ、その移動距離を設定できます。
     scroll_top: true, //モーダルウィンドウを毎回ページトップから表示するかどうか。
     velocity_js: true, //jQueryプラグイン版の`velocity.js`を導入している場合、`velocity.js`アニメーションの使用の可否を設定できます。
     css_animation: true, //CSS3の`transition`アニメーションが使用可能な場合、`transition`アニメーションの使用の可否を設定できます。
@@ -64,7 +66,6 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
     page_classname: 'fModal-page', //通常のコンテンツを覆う要素のクラス名を変更できます。モーダル表示時には非表示となります。 ★必須
     modal_classname: 'fModal-modal', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。 ★必須
     modal_cont_classname: 'fModal-modal_cont', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。
-    opened_classname: 'fModal-opened', //モーダルウィンドウが開いている時に`body`要素に付与されるクラス名を変更できます。モーダルを閉じる時に、body要素を一時的にopacity:0;にする必要があるので必ず付与してください。 ★必須
     scroll_classname: 'fModal-innerScroll', //ページ内を縦移動するためのクラス名を変更することができます。href属性を指定することで、クリックでモーダルウィンドウが閉じ、href属性で指定した位置まで移動します。
     modal_cont_item_classname: 'fModal-modal_cont_item', // lazy-load対象をページごとにグループ分けするためのクラス名を変更することができます。この中のクラス名"fModal-lazy"を検索して全て表示し終えたのちmodal_cont_classnameが表示されます。lazy-loadを使用する場合は、必ずmodal_cont_classnameの中にこのmodal_cont_item_classnameを作ってその中にコンテンツを記述してください。★lazy
     lazy_classname: 'fModal-lazy', //遅延読み込み対象の画像に付与するクラス名を変更できます。★lazy
