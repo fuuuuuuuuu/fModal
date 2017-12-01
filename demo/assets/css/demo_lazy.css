@@ -35,6 +35,10 @@ img{
     margin-right: 0
 }
 
+.fModal-modal{
+  background-color: #fff;
+}
+
 .fModal-modal .fModal-load {
     position: fixed;
     top: 50%;
