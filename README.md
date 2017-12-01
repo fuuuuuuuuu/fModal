@@ -1,7 +1,5 @@
-# fModal plug-in　β版
+# fModal plug-in
 ## ページ内にモーダルウィンドウを生成するためのjQueryプラグインです。
-【表示/非表示のみ対応版】**jquery.fModal.js**  
-【画像遅延読み込み及びモーダル内ページ遷移対応版】**jquery.fModal_lazy.js**  
 ※透過背景には対応していません。
 
 ## 概要 / How it works
@@ -16,18 +14,14 @@
 ## 使用方法 / How to use
 
 モーダル部分と、それ以外の通常コンテンツ（モーダル非表示時に表示されている）を同階層に配置し、それぞれ”modal_classname”と”page_classname”を付与してクラス分けをしてください。
-1. 【jQuery本体の読み込み】jQuery本体をjquery.fModal.jsよりも前に読み込んでおきます。
+1. 【jQuery本体の読み込み】jQuery本体をjquery.fModal.jsよりも前に記述してください。※jqueryに依存しているため、読み込み順を間違えると動きません。
 2. 【jquery.fModal.jsプラグインの読み込み】下記の引数を使い、必要に応じて以下の3,4に従って書き換えてください。
 3. 下記の引数class-name（○◯_classname）に則って、各要素にクラスを付与します。 **★必須** の部分は指定しないと正常に動作しません。
 4. 下記の引数optionを利用状況によってお好みで変更を加えてください。  
 
 ### jquery.lazyload.jsと連動して画像の遅延読み込みする場合
 本プラグインでは、画像の遅延読み込み機能をオプションで備えています。  
-この機能を利用するには、"jquery.fModal.js"のlazy-load対応版"jquery.fModal_lazy.js"を読み込んでください。  
-機能を利用しない場合は、よりシンプルで軽量な"jquery.fModal.js"をお使いください。  
-基本的にはクラスを付与するのみで動作しますが、ページの遷移時、開閉時に取得できる変数を利用することでより複雑な設定が可能です。
-demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況別に動きをつけています。
-
+基本的にはクラスを付与するのみで動作しますが、ページの遷移時、開閉時に取得できるパラメータを利用することでより複雑な設定が可能です。
 
 ## 引数 / Parameters
 ★必須・・・設定しないと動かないので、必ず設定してください。  
@@ -47,7 +41,7 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
     scroll_top: true, //モーダルウィンドウを毎回ページトップから表示するかどうか。
     velocity_js: true, //jQueryプラグイン版の`velocity.js`を導入している場合、`velocity.js`アニメーションの使用の可否を設定できます。
     css_animation: true, //CSS3の`transition`アニメーションが使用可能な場合、`transition`アニメーションの使用の可否を設定できます。
-    lazy_flag: false, //jQueryプラグイン`jquery.lazyload.js`を導入している場合、モーダル内画像を遅延読み込みするかを設定できます。★lazy
+    lazy_load: false, //jQueryプラグイン`jquery.lazyload.js`を導入している場合、モーダル内画像を遅延読み込みするかを設定できます。★lazy
 
     // アクションの前後に実行したい関数を設定することができます。何もしない場合は記述不要です。
     // 関数にはパラメータが4つあり、`e`にはクリックイベント、`n`には現在のページ番号、`l`にはページの総数、`d`には各イベント発火毎に代入される値(
@@ -82,14 +76,14 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
 ## 使用例(画像遅延読み込みなし) / Example
 ```html
 
-<body class="fModal-opened">
-  <div class="fModal-page">
+<body>
+  <div class="fModal-page" style="background-color: #fff;">
     <h1>Normal Contents</h1>
-    <p><a class="fModal-open" href="#">MODAL OPEN</a></p>
+    <p><a class="fModal-open" href="">MODAL OPEN</a></p>
     <p>This is normal contents.</p>
   </div>
 
-  <div class="fModal-modal">
+  <div class="fModal-modal" style="background-color: #ff0;">
     <div class="fModal-modal_cont">
       <h2>Modal Contents</h2>
       <p><a class="fModal-close" href="#">MODAL CLOSE</a></p>
@@ -100,8 +94,8 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
   <!-- jquery読み込み -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
   <!-- プラグインファイル読み込み -->
-  <script src="jquery.fModal.js" type="text/javascript"></script>
-  <!-- jquery.fModal_lazy.jsプラグイン読み込み -->
+  <script src="../jquery.fModal.js" type="text/javascript"></script>
+  <!-- jquery.fModal.jsプラグイン読み込み -->
   <script>
   $(function() {
     $.fModal();
@@ -114,66 +108,78 @@ demoフォルダ内の”demo_lazy_multi.html”は変数を利用して状況�
 ## 使用例(画像遅延読み込みあり) / Example for lazy-load
 ```html
 
+<head>
+    <link href="./assets/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="./assets/css/demo_lazy.css" rel="stylesheet" type="text/css" />
+</head>
+
 <body class="fModal-opened">
-  <div class="fModal-page">
-    <h1>Normal Contents</h1>
-    <p><a class="fModal-open" href="#">MODAL OPEN-1</a></p>
-    <p><a class="fModal-open" href="#">MODAL OPEN-2</a></p>
-    <p><a class="fModal-open" href="#">MODAL OPEN-3</a></p>
-    <p>This is normal contents.</p>
-  </div>
-
-  <div class="fModal-modal" style="text-align: center;">
-    <div class="fModal-load" style="position: fixed; top: 50%; width: 100%;"><img class="loading" src="image/loading.gif" alt="" style="width: 40px; margin-top: -20px;"/></div>
-    <div class="fModal-prev" style="position: fixed; top: 48%; left: 5%; font-size: 30px; z-index: 10; cursor: pointer;">&#60;</div>
-    <div class="fModal-next" style="position: fixed; top: 48%; right: 5%; font-size: 30px; z-index: 10; cursor: pointer;">&#62;</div>
-
-    <div class="fModal-modal_cont">
-      <div class="fModal-modal_cont_item">
-        <p><a class="fModal-close" href="#">MODAL CLOSE-1</a></p>
-        <div><img class="fModal-lazy" data-original="image/img_1.jpg" alt="" /></div>
-        <p>This is modal contents.</p>
-      </div>
-      <div class="fModal-modal_cont_item">
-        <p><a class="fModal-close" href="#">MODAL CLOSE-2</a></p>
-        <div><img class="fModal-lazy" data-original="image/img_2.jpg" alt="" /></div>
-        <p>This is modal contents.</p>
-      </div>
-      <div class="fModal-modal_cont_item">
-        <p><a class="fModal-close" href="#">MODAL CLOSE-3</a></p>
-        <div><img class="fModal-lazy" data-original="image/img_3.jpg" alt="" /></div>
-        <p>This is modal contents.</p>
-      </div>
-
-      <div class="paging"><span class="page-current"></span> / <span class="page-length"></span></div>
+    <div class="fModal-page">
+        <h1 class="page-ttl">Normal Contents</h1>
+        <ul class="list-wrapper clear_fix">
+            <li class="fModal-open">MODAL OPEN-1</li>
+            <li class="fModal-open">MODAL OPEN-2</li>
+            <li class="fModal-open">MODAL OPEN-3</li>
+        </ul>
     </div>
-  </div>
+    <div class="fModal-modal">
+        <div class="fModal-load"><img class="loading" src="./assets/image/loading.gif" alt="" /></div>
+        <div class="fModal-close">&times;</div>
+        <div class="fModal-prev">&#60;</div>
+        <div class="fModal-next">&#62;</div>
+        <div class="fModal-modal_cont">
+            <div class="fModal-modal_cont_item">
+                <div class="fModal-swipe"><img class="fModal-lazy" data-original="./assets/image/img_1.jpg" alt="" />
+                    <p class="lead">This is modal contents.</p>
+                    <div class="paging"><span class="page-current"></span>/ <span class="page-length"></span></div>
+                </div>
+            </div>
+            <div class="fModal-modal_cont_item">
+                <div class="fModal-swipe"><img class="fModal-lazy" data-original="./assets/image/img_2.jpg" alt="" />
+                    <p class="lead">This is modal contents.</p>
+                    <div class="paging"><span class="page-current"></span>/ <span class="page-length"></span></div>
+                </div>
+            </div>
+            <div class="fModal-modal_cont_item">
+                <div class="fModal-swipe"><img class="fModal-lazy" data-original="./assets/image/img_3.jpg" alt="" />
+                    <p class="lead">This is modal contents.</p>
+                    <div class="paging"><span class="page-current"></span>/ <span class="page-length"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <!-- jquery読み込み -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
-  <!-- velocity.js読み込み -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
-  <!-- プラグインファイル読み込み -->
-  <script src="../libs/jquery.lazyload.js" type="text/javascript"></script>
-  <script src="../jquery.fModal_lazy.js" type="text/javascript"></script>
-  <!-- jquery.fModal.jsプラグイン読み込み -->
-  <script>
-    $(function() {
-      var page_current = $('.page-current'),
-          page_length = $('.page-length');
-      $.fModal({
-        easing: 'easeInOutSine',
-        lazy_flag: true,
-        before_open: function(e){
-          page_length.html(fModal_itemLength);
-        },
-        before_change: function(e) {
-          page_current.html(fModal_itemCurrent + 1);
-        },
+    <!-- jquery読み込み -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+    <!-- velocity.js読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
+    <!-- プラグインファイル読み込み -->
+    <script src="../libs/jquery.lazyload.js" type="text/javascript"></script>
+    <script src="../jquery.fModal.js" type="text/javascript"></script>
+
+    <!-- fModal用script記述 -->
+    <script>
+      $(function(){
+        var page_length = $('.page-length'),
+            page_current = $('.page-current');
+
+        $.fModal({
+
+          duration: 350,
+          lazy_load: true,
+          before_open: function(e,n,l,d) {
+            page_length.html(l);
+          },
+          during_change: function(e,n,l,d) {
+            page_current.html(n + 1);
+          },
+
+        });
       });
-    });
-  </script>
+    </script>
+
 </body>
+
 
 ```
 
