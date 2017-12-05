@@ -8,6 +8,7 @@
   $.fModal = function(options) {
     var default_options = {
         type: 'fade',
+        position: 'fixed',
         scroll_top: true,
         duration: 260,
         easing: 'swing',
@@ -273,11 +274,9 @@
         lazyLoad(e);
       }
 
+      $load.css('display', 'block');
       setTimeout(function(){
-        $load.css({
-          'opacity': 1,
-          'display':'block'
-        });
+        $load.css('opacity', '1');
 
         setTimeout(function(){
           $(window).scrollTop(0);
@@ -285,20 +284,24 @@
           $modal_cont_item.not(itemCurrent).css({
               opacity: 0,
               zIndex: 0,
-              'position': 'absolute'
+              // 'position': 'absolute'
             });
 
           itemCurrent
             .css({
               'z-index':'1',
               'opacity':'1',
-              'position':'relative',
               'display': 'block'
+              // 'position':'relative',
             });
 
           // lazy = false の場合は自動的に表示する
           if(params.lazy_load !== true) {
             $modal_cont.css('opacity',1);
+            $load.css('opacity', 0);
+            setTimeout(function(){
+              $load.css('display', 'none');
+            },params.duration + 16);
           }
 
             setTimeout(function(){
@@ -434,6 +437,9 @@
                 $modal_cont.css({
                   'opacity': 1
                 });
+                setTimeout(function(){
+                  $load.css('display', 'none');
+                },params.duration);
               }, 16);
             },(params.duration + 300));
           }
@@ -538,17 +544,27 @@
         });
 
       // Set CSS
-      $modal.css({
-        opacity: 0,
-        display: 'none',
-        zIndex: '9000',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100vh',
-        'overflow-y': 'auto',
-      });
+      if(params.position === 'fixed' || params.position === 'absolute'){
+        $modal.css({
+          opacity: 0,
+          display: 'none',
+          zIndex: '9000',
+          position: params.position,
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          'overflow-y': 'auto',
+        });
+      } else{
+        $modal.css({
+          opacity: 0,
+          display: 'none',
+          zIndex: '9000',
+          position: params.position,
+          width: '100%',
+        });
+      }
 
       if(animation_method === 'css_transition') {
         $modal.css({
