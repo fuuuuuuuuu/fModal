@@ -28,6 +28,7 @@
         before_change: function(e) {},
         during_change: function(e) {},
         after_change: function(e) {},
+        lazy_comp_before: function(e) {},
 
         open_classname: 'fModal-open',
         close_classname: 'fModal-close',
@@ -137,6 +138,11 @@
 
       // open関数実行部分
       setTimeout(function() {
+
+        $load.css('display', 'block');
+        setTimeout(function(){
+          $load.css('opacity', '1');
+        },16);
 
         switch(animation_method) {
           case 'velocity':
@@ -271,53 +277,46 @@
       }
 
       if(params.lazy_load) {
-        lazyLoad(e);
+        lazyLoad(e,n,l,d);
       }
 
-      $load.css('display', 'block');
       setTimeout(function(){
-        $load.css('opacity', '1');
+        $(window).scrollTop(0);
 
-        setTimeout(function(){
-          $(window).scrollTop(0);
+        $modal_cont_item.not(itemCurrent).css({
+            opacity: 0,
+            zIndex: 0,
+          });
 
-          $modal_cont_item.not(itemCurrent).css({
-              opacity: 0,
-              zIndex: 0,
-              // 'position': 'absolute'
-            });
+        itemCurrent
+          .css({
+            'z-index':'1',
+            'opacity':'1',
+            'display': 'block'
+          });
 
-          itemCurrent
-            .css({
-              'z-index':'1',
-              'opacity':'1',
-              'display': 'block'
-              // 'position':'relative',
-            });
+        // lazy = false の場合は自動的に表示する
+        if(params.lazy_load !== true) {
+          $modal_cont.css('opacity',1);
+          $load.css('opacity', 0);
+          setTimeout(function(){
+            $load.css('display', 'none');
+          },params.duration + 16);
+        }
 
-          // lazy = false の場合は自動的に表示する
-          if(params.lazy_load !== true) {
-            $modal_cont.css('opacity',1);
-            $load.css('opacity', 0);
+          setTimeout(function(){
+            $modal_cont_item.not(itemCurrent).hide();
+
+            if (typeof params.after_change === 'function') {
+              params.after_change(e,n,l,d);
+            }
+
             setTimeout(function(){
-              $load.css('display', 'none');
-            },params.duration + 16);
-          }
+              page_flag = false;
+            },(params.duration + 16)*2);
 
-            setTimeout(function(){
-              $modal_cont_item.not(itemCurrent).hide();
-
-              if (typeof params.after_change === 'function') {
-                params.after_change(e,n,l,d);
-              }
-
-              setTimeout(function(){
-                page_flag = false;
-              },(params.duration + 16)*2);
-
-            },16);
-        },params.duration + 16);
-      },16);
+          },16);
+      },params.duration + 16);
     }
 
     function next(e,n,l,d) {
@@ -335,6 +334,10 @@
       }
 
       setTimeout(function(){
+        $load.css('display', 'block');
+        setTimeout(function(){
+          $load.css('opacity', '1');
+        },16);
         $modal_cont.css({
           opacity:0
         });
@@ -345,7 +348,7 @@
           item_now++;
           change(e,n,l,d);
         },params.duration + 16);
-      },16);
+      },50);
     }
 
     function prev(e,n,l,d) {
@@ -364,6 +367,10 @@
       }
 
       setTimeout(function(){
+        $load.css('display', 'block');
+        setTimeout(function(){
+          $load.css('opacity', '1');
+        },16);
         $modal_cont.css({
           opacity:0
         });
@@ -374,7 +381,7 @@
           item_now--;
           change(e,n,l,d);
         },params.duration + 16);
-      },16);
+      },50);
     }
 
     function nav(e,n,l,d) {
@@ -400,16 +407,20 @@
       }
 
       setTimeout(function(){
+        $load.css('display', 'block');
+        setTimeout(function(){
+          $load.css('opacity', '1');
+        },16);
         $modal_cont.css({
           opacity:0
         });
         setTimeout(function(){
           change(e,n,l,d);
         },params.duration + 16);
-      },16);
+      },50);
     }
 
-    function lazyLoad(e) {
+    function lazyLoad(e,n,l,d) {
 
       var lazy_delayTime = 0;
 
@@ -429,6 +440,9 @@
           lazy_count++;
 
           if(lazy_count >= lazy_len){
+            if (typeof params.lazy_comp_before === 'function') {
+              params.lazy_comp_before(e,n,l,d);
+            }
             setTimeout(function(){
               $load.css({
                 'opacity': 0
@@ -437,6 +451,9 @@
                 $modal_cont.css({
                   'opacity': 1
                 });
+                if (typeof params.lazy_comp_after === 'function') {
+                  params.lazy_comp_after(e,n,l,d);
+                }
                 setTimeout(function(){
                   $load.css('display', 'none');
                 },params.duration);

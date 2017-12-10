@@ -45,8 +45,7 @@
     lazy_load: false, //jQueryプラグイン`jquery.lazyload.js`を導入している場合、モーダル内画像を遅延読み込みするかを設定できます。★lazy
 
     // アクションの前後に実行したい関数を設定することができます。何もしない場合は記述不要です。
-    // 関数にはパラメータが4つあり、`e`にはクリックイベント、`n`には現在のページ番号、`l`にはページの総数、`d`には各イベント発火毎に代入される値(
-      openボタン => "open", closeボタン => "close", prevボタン => "prev", nextボタン => "next")が渡されています。
+    // 関数にはパラメータが4つあり、`e`にはクリックイベント、`n`には現在のページ番号、`l`にはページの総数、`d`には各イベント発火毎に代入される値(openボタン => "open", closeボタン => "close", prevボタン => "prev", nextボタン => "next")が渡されています。
     before_open: function(e,n,l,d) {}, //モーダルウィンドウを表示する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     after_open: function(e,n,l,d) {}, //モーダルウィンドウを表示する直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
     before_close: function(e,n,l,d) {}, //モーダルウィンドウを非表示にする直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。
@@ -54,6 +53,8 @@
     before_change: function(e,n,l,d) {}, //モーダル内でページ遷移する直前に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。★lazy_multi
     during_change: function(e,n,l,d) {}, //モーダル内でページ遷移した直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。★lazy_multi
     after_change: function(e,n,l,d) {}, //モーダル内でページ遷移し、コンテンツの表示が開始された直後に実行される関数です。パラメータ`e`にはクリックイベントが渡されています。★lazy_multi
+    lazy_comp_before: function(e) {}, //画像の遅延読み込みが完了し、コンテンツが表示される直前に実行される関数です。 ★lazy_multi
+    lazy_comp_after: function(e) {}, //画像の遅延読み込みが完了し、コンテンツが表示されるタイミングで実行される関数です。 ★lazy_multi
 
     // プラグイン内で設定されているクラス名を変更することができます。デフォルトで以下の各クラスが設定されていますので、それぞれ対象の要素に付与してください。
     open_classname: 'fModal-open', //モーダルウィンドウを表示するためにクリックする要素のクラス名を変更できます。 ★必須
@@ -63,7 +64,7 @@
     modal_cont_classname: 'fModal-modal_cont', //モーダルウィンドウで表示するコンテンツを覆う要素のクラス名を変更できます。
     scroll_classname: 'fModal-innerScroll', //ページ内を縦移動するためのクラス名を変更することができます。href属性を指定することで、クリックでモーダルウィンドウが閉じ、href属性で指定した位置まで移動します。
     modal_cont_item_classname: 'fModal-modal_cont_item', // lazy-load対象をページごとにグループ分けするためのクラス名を変更することができます。この中のクラス名"fModal-lazy"を検索して全て表示し終えたのちmodal_cont_classnameが表示されます。lazy-loadを使用する場合は、必ずmodal_cont_classnameの中にこのmodal_cont_item_classnameを作ってその中にコンテンツを記述してください。★lazy
-    lazy_classname: 'fModal-lazy', //遅延読み込み対象の画像に付与するクラス名を変更できます。★lazy
+    lazy_classname: 'fModal-lazy', //遅延読み込み対象の画像に付与するクラス名を変更できます。※画像を覆う要素ではなくimgタグ自体にクラスを付与しないと動きません ★lazy
     load_classname: 'fModal-load', //モーダル内画像を遅延読み込みする場合、ロード時に表示するローディング画像（もしくはそれを覆う要素）のクラス名を変更できます。★lazy
     prev_classname: 'fModal-prev', //モーダル内でクリックすると前ページへ遷移する要素のクラス名を変更できます。★lazy_multi
     next_classname: 'fModal-next', //モーダル内でクリックすると次ページへ遷移する要素のクラス名を変更できます。★lazy_multi
