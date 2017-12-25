@@ -484,7 +484,6 @@
         e.stopPropagation ? e.stopPropagation() : '';
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
-        item_now = $close.index(this);
         n = item_now;
         item_length = $modal_cont_item.length;
         l = item_length;
